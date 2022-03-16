@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../cubit/shift/shift_cubit.dart';
 import '../time_util.dart';
 
@@ -16,7 +17,6 @@ class Clock extends StatefulWidget {
 
 class _ClockState extends State<Clock> {
   late Timer _timer;
-  String _clock = "";
   String _date = "";
 
   @override
@@ -27,11 +27,10 @@ class _ClockState extends State<Clock> {
 
   @override
   void initState() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+    final start = context.read<ShiftCubit>().state.shift.start;
+    _timer = Timer.periodic(const Duration(minutes: 10), (Timer timer) {
       setState(() {
-        _clock = TimeUtil.formatDateTime(DateTime.now());
         _date = TimeUtil.formatDate(DateTime.now());
-        final start = context.read<ShiftCubit>().state.shift.start;
         final tappedTime = TimeUtil.formatDate(start);
         if (tappedTime != _date) {
           BlocProvider.of<ShiftCubit>(context).resetNewDay();
@@ -58,14 +57,15 @@ class _ClockState extends State<Clock> {
                   color: Colors.white,
                   size: 24.0,
                 ),
-                subtitle: Center(
-                  child: Text(
-                    _clock,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                  ),
+                subtitle: StreamBuilder(
+                  stream: Stream.periodic(const Duration(seconds: 1)),
+                  builder: (context, snapshot) {
+                    return Center(
+                      child: Text(
+                        TimeUtil.formatDateTime(DateTime.now()),
+                      ),
+                    );
+                  },
                 ),
               ),
               shape: const RoundedRectangleBorder(
@@ -85,14 +85,15 @@ class _ClockState extends State<Clock> {
                   color: Colors.white,
                   size: 24.0,
                 ),
-                subtitle: Center(
-                  child: Text(
-                    _date,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                    ),
-                  ),
+                subtitle: StreamBuilder(
+                  stream: Stream.periodic(const Duration(seconds: 1)),
+                  builder: (context, snapshot) {
+                    return Center(
+                      child: Text(
+                        TimeUtil.formatDate(DateTime.now()),
+                      ),
+                    );
+                  },
                 ),
               ),
               shape: const RoundedRectangleBorder(

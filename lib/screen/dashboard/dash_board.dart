@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:timer/screen/dashboard/shift_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timer/screen/dashboard/first_shifts.dart';
+
 import '../../bloc/repo_bloc.dart';
 import '../../cubit/shift/shift_cubit.dart';
 import '../../cubit/shift/shift_state.dart';
 import '../../model/shift.dart';
 import '../../time_util.dart';
-import '../../widgets/shift_card.dart';
 import '../../widgets/clock.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../widgets/shift_card.dart';
 
 class DashBoard extends StatelessWidget {
   const DashBoard({Key? key}) : super(key: key);

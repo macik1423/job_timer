@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:timer/cubit/navigation/navigation_cubit.dart';
-import 'package:timer/screen/dashboard/dash_board.dart';
 import 'package:timer/repository/shift_hive.dart';
 import 'package:timer/repository/shift_repository.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:timer/screen/root_screen.dart';
+
 import 'bloc/repo_bloc.dart';
 import 'cubit/shift/shift_cubit.dart';
 import 'model/shift.dart';
@@ -64,7 +64,9 @@ class _MyAppState extends State<MyApp> {
                   ShiftRepository(
                     shiftApi: ShiftHiveApi(),
                   ),
-                )..add(RepoSubscriptionRequested())),
+                )..add(
+                    RepoSubscriptionRequested(),
+                  )),
           ),
           BlocProvider(
             create: (context) => NavigationCubit(),
