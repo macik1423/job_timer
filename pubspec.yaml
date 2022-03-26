@@ -45,6 +45,7 @@ dependencies:
   path_provider: ^2.0.9
   hydrated_bloc: ^8.0.0
   bloc_test: ^9.0.3
+  formz: ^0.4.1
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer/model/shifts_list.dart';
 
-import '../../bloc/repo_bloc.dart';
+import '../../bloc/repo/repo_bloc.dart';
 import '../../model/shift.dart';
 
 class ShiftList extends StatelessWidget {

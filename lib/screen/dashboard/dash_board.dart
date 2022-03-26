@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer/screen/dashboard/first_shifts.dart';
 
-import '../../bloc/repo_bloc.dart';
+import '../../bloc/repo/repo_bloc.dart';
 import '../../cubit/shift/shift_cubit.dart';
 import '../../cubit/shift/shift_state.dart';
 import '../../model/shift.dart';

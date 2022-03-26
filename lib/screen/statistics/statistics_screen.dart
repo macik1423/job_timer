@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:timer/model/shift.dart';
 import 'package:timer/model/shifts_list.dart';
 
-import '../../bloc/repo_bloc.dart';
+import '../../bloc/repo/repo_bloc.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({Key? key}) : super(key: key);

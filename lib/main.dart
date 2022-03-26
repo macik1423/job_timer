@@ -5,12 +5,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:timer/bloc/add_form/add_form_bloc.dart';
 import 'package:timer/cubit/navigation/navigation_cubit.dart';
 import 'package:timer/repository/shift_hive.dart';
 import 'package:timer/repository/shift_repository.dart';
 import 'package:timer/screen/root_screen.dart';
 
-import 'bloc/repo_bloc.dart';
+import 'bloc/repo/repo_bloc.dart';
 import 'cubit/shift/shift_cubit.dart';
 import 'model/shift.dart';
 
@@ -70,6 +71,9 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (context) => NavigationCubit(),
+          ),
+          BlocProvider(
+            create: (context) => AddFormBloc(),
           ),
         ],
         child: const RootScreen(),

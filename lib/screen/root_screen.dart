@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer/screen/dashboard/dash_board.dart';
-import 'package:timer/screen/settings.dart';
+import 'package:timer/screen/settings/settings.dart';
 import 'package:timer/screen/statistics/statistics.dart';
 
 import '../cubit/navigation/navigation_cubit.dart';

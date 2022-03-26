@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timer/bloc/repo_bloc.dart';
+import 'package:timer/bloc/repo/repo_bloc.dart';
 import 'package:timer/screen/statistics/statistics_screen.dart';
 
 class Statistics extends StatelessWidget {
@@ -8,8 +8,12 @@ class Statistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: context.read<RepoBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+          value: context.read<RepoBloc>(),
+        ),
+      ],
       child: const StatisticsScreen(),
     );
   }
