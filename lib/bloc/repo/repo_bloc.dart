@@ -12,13 +12,18 @@ class RepoBloc extends Bloc<RepoEvent, RepoState> {
   RepoBloc(ShiftRepository shiftRepository)
       : _shiftRepository = shiftRepository,
         super(const RepoState()) {
-    on<RepoSubscriptionRequested>(getShifts);
-    on<RepoShiftSaved>(saveShift);
+    on<RepoSubscriptionRequested>(_getShifts);
+    on<RepoShiftSaved>(_saveShift);
+    on<RepoReset>(_reset);
   }
 
   final ShiftRepository _shiftRepository;
 
-  Future<void> getShifts(
+  void _reset(RepoReset event, Emitter<RepoState> emit) {
+    emit(state.copyWith(status: RepoStateStatus.success));
+  }
+
+  Future<void> _getShifts(
       RepoSubscriptionRequested event, Emitter<RepoState> emit) async {
     emit(state.copyWith(status: RepoStateStatus.loading));
 
@@ -34,7 +39,7 @@ class RepoBloc extends Bloc<RepoEvent, RepoState> {
     );
   }
 
-  Future<void> saveShift(RepoShiftSaved event, Emitter<RepoState> emit) async {
+  Future<void> _saveShift(RepoShiftSaved event, Emitter<RepoState> emit) async {
     try {
       await _shiftRepository.saveShift(event.shift);
     } on ShiftAlreadyExistsException catch (error) {

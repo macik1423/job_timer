@@ -7,10 +7,19 @@ abstract class AddFormEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ShiftInputChanged extends AddFormEvent {
-  final ShiftInput input;
+class ShiftTimeInputChanged extends AddFormEvent {
+  final ShiftTimeInput input;
 
-  const ShiftInputChanged(this.input);
+  const ShiftTimeInputChanged(this.input);
+
+  @override
+  List<Object> get props => [input];
+}
+
+class ShiftDateInputChanged extends AddFormEvent {
+  final ShiftDateInput input;
+
+  const ShiftDateInputChanged(this.input);
 
   @override
   List<Object> get props => [input];

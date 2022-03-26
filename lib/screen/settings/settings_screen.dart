@@ -67,31 +67,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
             ),
-            BlocBuilder<RepoBloc, RepoState>(
-              bloc: context.read<RepoBloc>(),
-              builder: (context, state) {
-                if (state.status == RepoStateStatus.success) {
-                  final shifts = state.shifts.where((shift) {
-                    return shift.start?.month == numOfMonth;
-                  }).toList();
-                  if (shifts.isNotEmpty) {
-                    shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
-                  }
-                  return Column(
-                    children: [
-                      FittedBox(
-                        child: ShiftsList(
-                          shifts: shifts,
-                          dateText: _dateText,
-                          startText: _startText,
-                          endText: _endText,
-                          diffText: _diffText,
-                        ),
-                      ),
-                    ],
+            BlocConsumer<RepoBloc, RepoState>(
+              listener: (context, state) {
+                if (state.status == RepoStateStatus.failure) {
+                  final message = state.message;
+                  final snackBar = SnackBar(
+                    content: Text(message),
                   );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  repoBloc.add(RepoReset());
                 }
-                return Text('dupa');
+              },
+              builder: (context, state) {
+                final shifts = state.shifts.where((shift) {
+                  return shift.start?.month == numOfMonth;
+                }).toList();
+                if (shifts.isNotEmpty) {
+                  shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
+                }
+                return Column(
+                  children: [
+                    FittedBox(
+                      child: ShiftsList(
+                        shifts: shifts,
+                        dateText: _dateText,
+                        startText: _startText,
+                        endText: _endText,
+                        diffText: _diffText,
+                      ),
+                    ),
+                  ],
+                );
               },
             ),
           ],

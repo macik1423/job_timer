@@ -1,6 +1,5 @@
 import 'package:hive/hive.dart';
 import 'package:rxdart/subjects.dart';
-
 import 'package:timer/model/shift.dart';
 
 import '../exception.dart';
@@ -38,7 +37,9 @@ class ShiftHiveApi extends ShiftApi {
     });
 
     if (shiftIndexStart >= 0 && shiftIndexEnd >= 0) {
-      throw ShiftAlreadyExistsException('Shift already exists for today');
+      final shift = shifts[shiftIndexStart];
+      throw ShiftAlreadyExistsException(
+          'Shift ${TimeUtil.formatDate(shift.start)} already exists');
     } else {
       shifts.add(shift);
       _shiftController.add(shifts);

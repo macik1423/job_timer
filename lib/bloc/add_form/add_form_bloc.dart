@@ -10,7 +10,8 @@ part 'add_form_state.dart';
 
 class AddFormBloc extends Bloc<AddFormEvent, AddFormState> {
   AddFormBloc() : super(const AddFormState()) {
-    on<ShiftInputChanged>(_onShiftChanged);
+    on<ShiftTimeInputChanged>(_onShiftTimeChanged);
+    on<ShiftDateInputChanged>(_onShiftDateChanged);
   }
 
   @override
@@ -18,13 +19,27 @@ class AddFormBloc extends Bloc<AddFormEvent, AddFormState> {
     super.onTransition(transition);
   }
 
-  void _onShiftChanged(ShiftInputChanged event, Emitter<AddFormState> emit) {
-    final shiftInput = AddShift.dirty(value: event.input);
+  void _onShiftTimeChanged(
+      ShiftTimeInputChanged event, Emitter<AddFormState> emit) {
+    final shiftInput = AddShiftTime.dirty(value: event.input);
     emit(
       state.copyWith(
-        shift:
-            shiftInput.valid ? shiftInput : AddShift.pure(value: event.input),
+        shift: shiftInput.valid
+            ? shiftInput
+            : AddShiftTime.pure(value: event.input),
         status: Formz.validate([shiftInput, state.shift]),
+      ),
+    );
+  }
+
+  void _onShiftDateChanged(
+      ShiftDateInputChanged event, Emitter<AddFormState> emit) {
+    final shiftDate = AddShiftDate.dirty(value: event.input);
+    emit(
+      state.copyWith(
+        date:
+            shiftDate.valid ? shiftDate : AddShiftDate.pure(value: event.input),
+        status: Formz.validate([shiftDate, state.date]),
       ),
     );
   }

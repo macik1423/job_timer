@@ -2,7 +2,7 @@ part of 'repo_bloc.dart';
 
 enum RepoStateStatus { initial, loading, success, failure }
 
-class RepoState {
+class RepoState extends Equatable {
   final RepoStateStatus status;
   final List<Shift> shifts;
   final String message;
@@ -24,4 +24,7 @@ class RepoState {
       message: message ?? this.message,
     );
   }
+
+  @override
+  List<Object?> get props => [status, shifts, message];
 }
