@@ -48,6 +48,13 @@ class ShiftHiveApi extends ShiftApi {
   }
 
   @override
+  Future<void> deleteShift(Shift shift) async {
+    final shifts = [..._shiftController.value];
+    shifts.removeWhere((s) => s.start == shift.start && s.end == shift.end);
+    _shiftController.add(shifts);
+  }
+
+  @override
   Stream<List<Shift>> getShifts() => _shiftController.asBroadcastStream();
 
   @override

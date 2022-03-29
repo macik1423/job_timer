@@ -5,7 +5,9 @@ import 'package:timer/screen/settings/add_form.dart';
 
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';
+import '../../model/shift.dart';
 import '../../model/shifts_list.dart';
+import '../../time_util.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -94,6 +96,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         startText: _startText,
                         endText: _endText,
                         diffText: _diffText,
+                        press: (Shift shift) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                actions: [
+                                  TextButton(
+                                    child: const Text("Cancel"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text("OK"),
+                                    onPressed: () {
+                                      repoBloc.add(RepoShiftDeleted(shift));
+                                      Navigator.of(context).pop();
+                                    },
+                                  )
+                                ],
+                                title: Text(
+                                    "Delete shift from ${TimeUtil.formatDate(shift.start)}?"),
+                                content: Text(
+                                    'Are you sure you want to delete this shift?'),
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
                   ],

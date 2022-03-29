@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timer/repository/shift_repository.dart';
@@ -15,6 +17,7 @@ class RepoBloc extends Bloc<RepoEvent, RepoState> {
     on<RepoSubscriptionRequested>(_getShifts);
     on<RepoShiftSaved>(_saveShift);
     on<RepoReset>(_reset);
+    on<RepoShiftDeleted>(_deleteShift);
   }
 
   final ShiftRepository _shiftRepository;
@@ -50,5 +53,11 @@ class RepoBloc extends Bloc<RepoEvent, RepoState> {
         ),
       );
     }
+  }
+
+  FutureOr<void> _deleteShift(
+      RepoShiftDeleted event, Emitter<RepoState> emit) async {
+    await _shiftRepository.deleteShift(event.shift);
+    emit(state.copyWith(status: RepoStateStatus.success));
   }
 }

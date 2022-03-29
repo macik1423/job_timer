@@ -27,11 +27,13 @@ class ShiftList extends StatelessWidget {
           }
           return FittedBox(
             child: ShiftsList(
-                dateText: _dateText,
-                startText: _startText,
-                endText: _endText,
-                diffText: _diffText,
-                shifts: shifts),
+              dateText: _dateText,
+              startText: _startText,
+              endText: _endText,
+              diffText: _diffText,
+              shifts: shifts,
+              press: (Shift shift) {},
+            ),
           );
         } else {
           return const Center(

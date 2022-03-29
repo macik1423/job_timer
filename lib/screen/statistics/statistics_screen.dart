@@ -84,6 +84,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         startText: _startText,
                         endText: _endText,
                         diffText: _diffText,
+                        press: (Shift shift) {},
                       ),
                     ),
                   ],

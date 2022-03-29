@@ -16,3 +16,9 @@ class RepoShiftSaved extends RepoEvent {
 }
 
 class RepoReset extends RepoEvent {}
+
+class RepoShiftDeleted extends RepoEvent {
+  final Shift shift;
+
+  const RepoShiftDeleted(this.shift);
+}

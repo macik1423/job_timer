@@ -13,4 +13,8 @@ class ShiftRepository {
   Future<void> saveShift(Shift shift) {
     return _shiftApi.saveShift(shift);
   }
+
+  Future<void> deleteShift(Shift shift) async {
+    _shiftApi.deleteShift(shift);
+  }
 }

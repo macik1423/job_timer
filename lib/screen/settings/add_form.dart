@@ -33,7 +33,6 @@ class _AddFormState extends State<AddForm> {
                       controller: TextEditingController(
                         text: state.shift.value.start.toString(),
                       ),
-                      textInputAction: TextInputAction.next,
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
                         labelText: 'Start',
@@ -66,7 +65,6 @@ class _AddFormState extends State<AddForm> {
                       controller: TextEditingController(
                         text: state.shift.value.end.toString(),
                       ),
-                      textInputAction: TextInputAction.next,
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
                         labelText: 'End',
@@ -97,8 +95,8 @@ class _AddFormState extends State<AddForm> {
                     ),
                     TextFormField(
                       controller: TextEditingController(
-                          text: state.date.value.toString()),
-                      textInputAction: TextInputAction.next,
+                        text: state.date.value.toString(),
+                      ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
                         labelText: 'Day',
