@@ -87,46 +87,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 if (shifts.isNotEmpty) {
                   shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
                 }
-                return Column(
-                  children: [
-                    FittedBox(
-                      child: ShiftsList(
-                        shifts: shifts,
-                        dateText: _dateText,
-                        startText: _startText,
-                        endText: _endText,
-                        diffText: _diffText,
-                        press: (Shift shift) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                actions: [
-                                  TextButton(
-                                    child: const Text("Cancel"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text("OK"),
-                                    onPressed: () {
-                                      repoBloc.add(RepoShiftDeleted(shift));
-                                      Navigator.of(context).pop();
-                                    },
-                                  )
-                                ],
-                                title: Text(
-                                    "Delete shift from ${TimeUtil.formatDate(shift.start)}?"),
-                                content: Text(
-                                    'Are you sure you want to delete this shift?'),
+                return Expanded(
+                  child: ListView(
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: FittedBox(
+                          child: ShiftsList(
+                            shifts: shifts,
+                            dateText: _dateText,
+                            startText: _startText,
+                            endText: _endText,
+                            diffText: _diffText,
+                            press: (Shift shift) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    actions: [
+                                      TextButton(
+                                        child: const Text("Cancel"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text("OK"),
+                                        onPressed: () {
+                                          repoBloc.add(RepoShiftDeleted(shift));
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ],
+                                    title: Text(
+                                        "Delete shift from ${TimeUtil.formatDate(shift.start)}?"),
+                                    content: const Text(
+                                        'Are you sure you want to delete this shift?'),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
             ),

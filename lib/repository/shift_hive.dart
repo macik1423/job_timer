@@ -52,6 +52,14 @@ class ShiftHiveApi extends ShiftApi {
     final shifts = [..._shiftController.value];
     shifts.removeWhere((s) => s.start == shift.start && s.end == shift.end);
     _shiftController.add(shifts);
+    final Map<dynamic, Shift> deliveriesMap = _box.toMap();
+    dynamic desiredKey;
+    deliveriesMap.forEach((key, value) {
+      if (value.start == shift.start && value.end == shift.end) {
+        desiredKey = key;
+      }
+    });
+    _box.delete(desiredKey);
   }
 
   @override

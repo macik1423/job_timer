@@ -28,7 +28,7 @@ class _ClockState extends State<Clock> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(minutes: 10), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         final start = context.read<ShiftCubit>().state.shift.start;
         _date = TimeUtil.formatDate(DateTime.now());

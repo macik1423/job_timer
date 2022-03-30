@@ -17,29 +17,33 @@ class ShiftList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RepoBloc, RepoState>(
-      builder: (context, state) {
-        if (state.status == RepoStateStatus.success) {
-          final List<Shift> shifts =
-              List.from(state.shifts.take(_firstElements));
-          if (shifts.isNotEmpty) {
-            shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
-          }
-          return FittedBox(
-            child: ShiftsList(
-              dateText: _dateText,
-              startText: _startText,
-              endText: _endText,
-              diffText: _diffText,
-              shifts: shifts,
-              press: (Shift shift) {},
-            ),
+    return BlocConsumer<RepoBloc, RepoState>(
+      listener: (context, state) {
+        if (state.status == RepoStateStatus.failure) {
+          final message = state.message;
+          final snackBar = SnackBar(
+            content: Text(message),
           );
-        } else {
-          return const Center(
-            child: Text('Brak danych'),
-          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          context.read<RepoBloc>().add(RepoReset());
         }
+      },
+      builder: (context, state) {
+        final List<Shift> shifts = List.from(state.shifts);
+        if (shifts.isNotEmpty) {
+          shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
+        }
+        final firstShifts = shifts.take(_firstElements).toList();
+        return FittedBox(
+          child: ShiftsList(
+            dateText: _dateText,
+            startText: _startText,
+            endText: _endText,
+            diffText: _diffText,
+            shifts: firstShifts,
+            press: (Shift shift) {},
+          ),
+        );
       },
     );
   }

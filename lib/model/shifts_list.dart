@@ -35,9 +35,10 @@ class ShiftsList extends StatelessWidget {
       rows: shifts.map((shift) {
         final start = shift.start;
         final end = shift.end;
-        final diff =
-            end?.subtract(Duration(hours: normalShift)).difference(start!);
-        final diffFormat = diff.toString().split('.')[0];
+        final diff = end
+            ?.subtract(Duration(hours: normalShift))
+            .difference(start!)
+            .inMinutes;
         return DataRow(
           onLongPress: () => press(shift),
           cells: [
@@ -51,7 +52,14 @@ class ShiftsList extends StatelessWidget {
               Text(TimeUtil.formatDate(start)),
             ),
             DataCell(
-              Text(diffFormat),
+              Container(
+                alignment: Alignment.center,
+                color: diff! < 0 ? Colors.pink[50] : Colors.green[50],
+                child: Text(
+                  diff.toString(),
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+              ),
             ),
           ],
         );
