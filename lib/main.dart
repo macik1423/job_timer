@@ -10,6 +10,7 @@ import 'package:timer/cubit/navigation/navigation_cubit.dart';
 import 'package:timer/repository/shift_hive.dart';
 import 'package:timer/repository/shift_repository.dart';
 import 'package:timer/screen/root_screen.dart';
+import 'package:timer/shift_box.dart';
 
 import 'bloc/repo/repo_bloc.dart';
 import 'cubit/shift/shift_cubit.dart';
@@ -63,7 +64,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider<RepoBloc>(
             create: ((context) => RepoBloc(
                   ShiftRepository(
-                    shiftApi: ShiftHiveApi(),
+                    shiftApi: ShiftHiveApi(ShiftBox()),
                   ),
                 )..add(
                     RepoSubscriptionRequested(),

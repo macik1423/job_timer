@@ -1,31 +1,28 @@
-import 'package:hive/hive.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:timer/model/shift.dart';
 
 import '../exception.dart';
+import '../shift_box.dart';
 import '../time_util.dart';
 import 'shift_api.dart';
 
 class ShiftHiveApi extends ShiftApi {
   late final _shiftController = BehaviorSubject<List<Shift>>.seeded(const []);
-  late final _box;
-  ShiftHiveApi() {
+  final ShiftBox shiftBox;
+
+  ShiftHiveApi(this.shiftBox) {
     _init();
   }
 
-  void _init() async {
-    _box = await Hive.openBox<Shift>('shifts');
-    // _box.deleteFromDisk();
-    final shifts = _box.values.toList();
+  Future<void> _init() async {
+    final box = await shiftBox.box;
+    final shifts = box.values.toList();
     _shiftController.sink.add(shifts);
   }
 
-  Future _setValue(shift) async {
-    _box.add(shift);
-  }
-
   @override
-  Future<void> saveShift(Shift shift) {
+  Future<void> saveShift(Shift shift) async {
+    final box = await shiftBox.box;
     final shifts = [..._shiftController.value];
     final shiftIndexStart = shifts.indexWhere((s) {
       final date = TimeUtil.formatDate(s.start);
@@ -43,23 +40,24 @@ class ShiftHiveApi extends ShiftApi {
     } else {
       shifts.add(shift);
       _shiftController.add(shifts);
-      return _setValue(shift);
+      box.add(shift);
     }
   }
 
   @override
   Future<void> deleteShift(Shift shift) async {
+    final box = await shiftBox.box;
     final shifts = [..._shiftController.value];
     shifts.removeWhere((s) => s.start == shift.start && s.end == shift.end);
     _shiftController.add(shifts);
-    final Map<dynamic, Shift> deliveriesMap = _box.toMap();
+    final Map<dynamic, Shift> deliveriesMap = box.toMap();
     dynamic desiredKey;
     deliveriesMap.forEach((key, value) {
       if (value.start == shift.start && value.end == shift.end) {
         desiredKey = key;
       }
     });
-    _box.delete(desiredKey);
+    box.delete(desiredKey);
   }
 
   @override
@@ -69,9 +67,9 @@ class ShiftHiveApi extends ShiftApi {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ShiftHiveApi && other._box == _box;
+    return other is ShiftHiveApi && other.shiftBox == shiftBox;
   }
 
   @override
-  int get hashCode => _box.hashCode;
+  int get hashCode => shiftBox.hashCode;
 }

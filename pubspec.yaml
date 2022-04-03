@@ -46,6 +46,7 @@ dependencies:
   hydrated_bloc: ^8.0.0
   bloc_test: ^9.0.3
   formz: ^0.4.1
+  flutter_services_binding: ^0.1.0
 
 dev_dependencies:
   flutter_test:
