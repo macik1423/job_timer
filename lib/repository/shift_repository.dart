@@ -17,4 +17,8 @@ class ShiftRepository {
   Future<void> deleteShift(Shift shift) async {
     _shiftApi.deleteShift(shift);
   }
+
+  Future<List<Shift>> getAll() async {
+    return await _shiftApi.getAll();
+  }
 }

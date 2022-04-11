@@ -15,14 +15,19 @@ class ShiftHiveApi extends ShiftApi {
   }
 
   Future<void> _init() async {
-    final box = await shiftBox.box;
-    final shifts = box.values.toList();
+    final shifts = await getAll();
     _shiftController.sink.add(shifts);
   }
 
   @override
+  Future<List<Shift>> getAll() async {
+    final box = await shiftBox.openBox();
+    return box.values.toList();
+  }
+
+  @override
   Future<void> saveShift(Shift shift) async {
-    final box = await shiftBox.box;
+    final box = await shiftBox.openBox();
     final shifts = [..._shiftController.value];
     final shiftIndexStart = shifts.indexWhere((s) {
       final date = TimeUtil.formatDate(s.start);
@@ -46,7 +51,7 @@ class ShiftHiveApi extends ShiftApi {
 
   @override
   Future<void> deleteShift(Shift shift) async {
-    final box = await shiftBox.box;
+    final box = await shiftBox.openBox();
     final shifts = [..._shiftController.value];
     shifts.removeWhere((s) => s.start == shift.start && s.end == shift.end);
     _shiftController.add(shifts);

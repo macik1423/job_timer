@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:timer/model/shift.dart';
-import 'package:timer/model/shifts_list.dart';
+import 'package:timer/widgets/shifts_list.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
 
@@ -17,10 +17,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   String selectedValue = DateFormat("MMMM").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-    const _startText = 'Start';
-    const _endText = 'Koniec';
-    const _dateText = 'Data';
-    const _diffText = 'Roznica';
     final List<String> months = [
       'January',
       'February',
@@ -80,10 +76,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                     FittedBox(
                       child: ShiftsList(
                         shifts: shifts,
-                        dateText: _dateText,
-                        startText: _startText,
-                        endText: _endText,
-                        diffText: _diffText,
                         press: (Shift shift) {},
                       ),
                     ),
@@ -98,14 +90,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     );
   }
 
-  int _getSummary(List<Shift> shifts) {
-    return shifts.fold<int>(
+  double _getSummary(List<Shift> shifts) {
+    return shifts.fold<double>(
         0,
         (p, s) =>
             p +
             s.end!
-                .subtract(const Duration(hours: 8))
-                .difference(s.start!)
-                .inMinutes);
+                    .subtract(const Duration(hours: 8))
+                    .difference(s.start!)
+                    .inSeconds /
+                60);
   }
 }

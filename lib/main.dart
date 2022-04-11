@@ -43,7 +43,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
-    Hive.box("shifts").compact();
+    Hive.box(ShiftBox.boxName).compact();
     Hive.close();
     super.dispose();
   }

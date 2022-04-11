@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timer/screen/dashboard/first_shifts.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
 import '../../cubit/shift/shift_cubit.dart';
@@ -9,9 +8,10 @@ import '../../model/shift.dart';
 import '../../time_util.dart';
 import '../../widgets/clock.dart';
 import '../../widgets/shift_card.dart';
+import 'first_shifts.dart';
 
-class DashBoard extends StatelessWidget {
-  const DashBoard({Key? key}) : super(key: key);
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class DashBoard extends StatelessWidget {
                   ShiftCard(
                     key: const Key('End'),
                     color: const Color.fromRGBO(225, 180, 147, 100),
-                    title: 'Koniec',
+                    title: 'End',
                     onTap: () {
                       final timeNow = DateTime.now();
                       context.read<RepoBloc>().add(
@@ -62,7 +62,7 @@ class DashBoard extends StatelessWidget {
                     tappedTime: TimeUtil.formatDateTime(state.shift.end),
                     enabled: state.enabledEnd,
                   ),
-                  const ShiftList(),
+                  const FirstShiftsList(),
                 ],
               );
             },

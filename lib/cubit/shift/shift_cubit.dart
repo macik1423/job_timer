@@ -6,7 +6,7 @@ import '../../model/shift.dart';
 class ShiftCubit extends HydratedCubit<ShiftState> {
   ShiftCubit()
       : super(
-          InitaialShiftState(
+          InitialShiftState(
             shift: Shift(
               start: null,
               end: null,
@@ -44,7 +44,7 @@ class ShiftCubit extends HydratedCubit<ShiftState> {
 
   void resetNewDay() {
     emit(
-      InitaialShiftState(
+      InitialShiftState(
         shift: Shift(
           start: null,
           end: null,

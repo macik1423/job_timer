@@ -6,8 +6,8 @@ import 'package:timer/screen/settings/add_form.dart';
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';
 import '../../model/shift.dart';
-import '../../model/shifts_list.dart';
 import '../../time_util.dart';
+import '../../widgets/shifts_list.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -24,10 +24,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final numOfMonth = DateFormat("MMMM").parse(selectedValue).month;
     AddFormBloc addFormBloc = BlocProvider.of<AddFormBloc>(context);
     RepoBloc repoBloc = BlocProvider.of<RepoBloc>(context);
-    const _startText = 'Start';
-    const _endText = 'Koniec';
-    const _dateText = 'Data';
-    const _diffText = 'Roznica';
     final List<String> months = [
       'January',
       'February',
@@ -95,10 +91,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         child: FittedBox(
                           child: ShiftsList(
                             shifts: shifts,
-                            dateText: _dateText,
-                            startText: _startText,
-                            endText: _endText,
-                            diffText: _diffText,
                             press: (Shift shift) {
                               showDialog(
                                 context: context,

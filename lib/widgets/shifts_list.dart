@@ -4,19 +4,15 @@ import 'package:timer/model/shift.dart';
 import '../time_util.dart';
 
 class ShiftsList extends StatelessWidget {
-  final String startText;
-  final String endText;
-  final String dateText;
-  final String diffText;
+  final String startText = 'Start';
+  final String endText = 'End';
+  final String dateText = 'Date';
+  final String diffText = 'Difference\'';
   final List<Shift> shifts;
   final int normalShift = 8;
   final Function(Shift shift) press;
-  ShiftsList({
+  const ShiftsList({
     Key? key,
-    required this.startText,
-    required this.endText,
-    required this.dateText,
-    required this.diffText,
     required this.shifts,
     required this.press,
   }) : super(key: key);
@@ -56,7 +52,7 @@ class ShiftsList extends StatelessWidget {
                 alignment: Alignment.center,
                 color: diff! < 0 ? Colors.pink[50] : Colors.green[50],
                 child: Text(
-                  diff.toString(),
+                  "${diff.toString()}'",
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timer/screen/dashboard/dash_board.dart';
+import 'package:timer/screen/home/home.dart';
 import 'package:timer/screen/settings/settings.dart';
 import 'package:timer/screen/statistics/statistics.dart';
 
@@ -74,13 +74,13 @@ class _RootScreenState extends State<RootScreen> {
         builder: (context, state) {
           switch (state.navbarItem) {
             case NavbarItem.home:
-              return const DashBoard();
+              return const Home();
             case NavbarItem.settings:
               return const Settings();
             case NavbarItem.statistics:
               return const Statistics();
             default:
-              return const DashBoard();
+              return const Home();
           }
         },
       ),
