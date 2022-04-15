@@ -47,6 +47,7 @@ dependencies:
   bloc_test: ^9.0.3
   formz: ^0.4.1
   flutter_services_binding: ^0.1.0
+  fl_chart: ^0.50.1
 
 dev_dependencies:
   flutter_test:

@@ -7,7 +7,7 @@ class ShiftsList extends StatelessWidget {
   final String startText = 'Start';
   final String endText = 'End';
   final String dateText = 'Date';
-  final String diffText = 'Difference\'';
+  final String diffText = 'Difference';
   final List<Shift> shifts;
   final int normalShift = 8;
   final Function(Shift shift) press;
@@ -34,7 +34,7 @@ class ShiftsList extends StatelessWidget {
         final diff = end
             ?.subtract(Duration(hours: normalShift))
             .difference(start!)
-            .inMinutes;
+            .inSeconds;
         return DataRow(
           onLongPress: () => press(shift),
           cells: [
@@ -52,7 +52,7 @@ class ShiftsList extends StatelessWidget {
                 alignment: Alignment.center,
                 color: diff! < 0 ? Colors.pink[50] : Colors.green[50],
                 child: Text(
-                  "${diff.toString()}'",
+                  "${(diff / 60).toString()}'",
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),

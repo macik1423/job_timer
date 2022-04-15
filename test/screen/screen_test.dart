@@ -11,7 +11,7 @@ import 'package:timer/cubit/shift/shift_state.dart';
 import 'package:timer/model/shift.dart';
 import 'package:timer/screen/root_screen.dart';
 
-import 'helpers/hydrated_bloc.dart';
+import '../helpers/hydrated_bloc.dart';
 
 class MockNavigationCubit extends MockCubit<NavigationState>
     implements NavigationCubit {}
@@ -23,7 +23,7 @@ class MockShiftCubit extends MockCubit<ShiftState> implements ShiftCubit {}
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
 void main() {
-  group('button is present and triggers navigation after tapped', () {
+  group('test Root screen', () {
     late MockNavigationCubit mockNavigationCubit;
     late MockRepoBloc mockRepoBloc;
     late MockShiftCubit mockShiftCubit;

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:timer/model/shift.dart';
-import 'package:timer/widgets/shifts_list.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
+import 'chart.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class StatisticsScreen extends StatefulWidget {
 }
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
-  String selectedValue = DateFormat("MMMM").format(DateTime.now());
+  String selectedMonth = DateFormat("MMMM").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     final List<String> months = [
@@ -37,7 +36,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
             child: DropdownButton(
-              value: selectedValue,
+              value: selectedMonth,
               underline: Container(
                 height: 2,
                 color: Colors.deepPurpleAccent,
@@ -52,37 +51,56 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               }).toList(),
               onChanged: (String? newValue) {
                 setState(() {
-                  selectedValue = newValue!;
+                  selectedMonth = newValue!;
                 });
               },
             ),
           ),
+          // BlocBuilder<RepoBloc, RepoState>(
+          //   bloc: context.read<RepoBloc>(),
+          //   builder: (context, state) {
+          //     if (state.status == RepoStateStatus.success) {
+          //       final numOfMonth =
+          //           DateFormat("MMMM").parse(selectedValue).month;
+          //       final shifts = state.shifts.where((shift) {
+          //         return shift.start?.month == numOfMonth;
+          //       }).toList();
+          //       if (shifts.isNotEmpty) {
+          //         shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
+          //       }
+          //       final summary = _getSummary(shifts);
+          //       return Column(
+          //         children: [
+          //           Text("Summary: $summary minutes"),
+          //           FittedBox(
+          //             child: ShiftsList(
+          //               shifts: shifts,
+          //               press: (Shift shift) {},
+          //             ),
+          //           ),
+          //         ],
+          //       );
+          //     }
+          //     return Text('dupa');
+          //   },
+          // ),
           BlocBuilder<RepoBloc, RepoState>(
             bloc: context.read<RepoBloc>(),
             builder: (context, state) {
               if (state.status == RepoStateStatus.success) {
                 final numOfMonth =
-                    DateFormat("MMMM").parse(selectedValue).month;
-                final shifts = state.shifts.where((shift) {
+                    DateFormat("MMMM").parse(selectedMonth).month;
+                final shiftsInMonth = state.shifts.where((shift) {
                   return shift.start?.month == numOfMonth;
                 }).toList();
-                if (shifts.isNotEmpty) {
-                  shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
-                }
-                final summary = _getSummary(shifts);
-                return Column(
-                  children: [
-                    Text("Summary: $summary minutes"),
-                    FittedBox(
-                      child: ShiftsList(
-                        shifts: shifts,
-                        press: (Shift shift) {},
-                      ),
-                    ),
-                  ],
+                shiftsInMonth.sort(((a, b) => b.start!.compareTo(a.start!)));
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Chart(shifts: shiftsInMonth),
                 );
+              } else {
+                return const Text("dupa");
               }
-              return Text('dupa');
             },
           ),
         ],
@@ -90,15 +108,15 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     );
   }
 
-  double _getSummary(List<Shift> shifts) {
-    return shifts.fold<double>(
-        0,
-        (p, s) =>
-            p +
-            s.end!
-                    .subtract(const Duration(hours: 8))
-                    .difference(s.start!)
-                    .inSeconds /
-                60);
-  }
+  // double _getSummary(List<Shift> shifts) {
+  //   return shifts.fold<double>(
+  //       0,
+  //       (p, s) =>
+  //           p +
+  //           s.end!
+  //                   .subtract(const Duration(hours: 8))
+  //                   .difference(s.start!)
+  //                   .inSeconds /
+  //               60);
+  // }
 }
