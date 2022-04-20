@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:timer/screen/settings/add_form.dart';
@@ -18,6 +19,35 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   String selectedValue = DateFormat("MMMM").format(DateTime.now());
+
+  final ScrollController _hideButtonController = ScrollController();
+  late bool _isVisible;
+
+  @override
+  initState() {
+    super.initState();
+    _isVisible = true;
+    _hideButtonController.addListener(
+      () {
+        if (_hideButtonController.position.userScrollDirection ==
+            ScrollDirection.reverse) {
+          if (_isVisible == true) {
+            setState(() {
+              _isVisible = false;
+            });
+          }
+        }
+        if (_hideButtonController.position.userScrollDirection ==
+            ScrollDirection.forward) {
+          if (_isVisible == false) {
+            setState(() {
+              _isVisible = true;
+            });
+          }
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }
                 return Expanded(
                   child: ListView(
+                    controller: _hideButtonController,
                     children: [
                       SingleChildScrollView(
                         scrollDirection: Axis.vertical,
@@ -130,29 +161,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider<AddFormBloc>.value(
-                    value: addFormBloc,
+      floatingActionButton: AnimatedOpacity(
+        opacity: _isVisible ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 500),
+        child: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return MultiBlocProvider(
+                  providers: [
+                    BlocProvider<AddFormBloc>.value(
+                      value: addFormBloc,
+                    ),
+                    BlocProvider<RepoBloc>.value(
+                      value: repoBloc,
+                    )
+                  ],
+                  child: AddForm(
+                    month: numOfMonth,
                   ),
-                  BlocProvider<RepoBloc>.value(
-                    value: repoBloc,
-                  )
-                ],
-                child: AddForm(
-                  month: numOfMonth,
-                ),
-              );
-            },
-          );
-        },
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
+                );
+              },
+            );
+          },
+          backgroundColor: Colors.green,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

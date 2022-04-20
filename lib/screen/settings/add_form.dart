@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timer/time_of_day_converter.dart';
 
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';
@@ -21,17 +22,18 @@ class _AddFormState extends State<AddForm> {
       builder: (context, state) {
         return Dialog(
           child: SizedBox(
-            height: 400,
-            width: 300,
+            height: 350,
+            width: 400,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Form(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextFormField(
                       controller: TextEditingController(
-                        text: state.shift.value.start.toString(),
+                        text: state.shift.value.start.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
@@ -63,7 +65,7 @@ class _AddFormState extends State<AddForm> {
                     ),
                     TextFormField(
                       controller: TextEditingController(
-                        text: state.shift.value.end.toString(),
+                        text: state.shift.value.end.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(

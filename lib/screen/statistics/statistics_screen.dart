@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
+import '../../model/shift.dart';
 import 'chart.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class StatisticsScreen extends StatefulWidget {
 
 class _StatisticsScreenState extends State<StatisticsScreen> {
   String selectedMonth = DateFormat("MMMM").format(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     final List<String> months = [
@@ -56,34 +58,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               },
             ),
           ),
-          // BlocBuilder<RepoBloc, RepoState>(
-          //   bloc: context.read<RepoBloc>(),
-          //   builder: (context, state) {
-          //     if (state.status == RepoStateStatus.success) {
-          //       final numOfMonth =
-          //           DateFormat("MMMM").parse(selectedValue).month;
-          //       final shifts = state.shifts.where((shift) {
-          //         return shift.start?.month == numOfMonth;
-          //       }).toList();
-          //       if (shifts.isNotEmpty) {
-          //         shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
-          //       }
-          //       final summary = _getSummary(shifts);
-          //       return Column(
-          //         children: [
-          //           Text("Summary: $summary minutes"),
-          //           FittedBox(
-          //             child: ShiftsList(
-          //               shifts: shifts,
-          //               press: (Shift shift) {},
-          //             ),
-          //           ),
-          //         ],
-          //       );
-          //     }
-          //     return Text('dupa');
-          //   },
-          // ),
           BlocBuilder<RepoBloc, RepoState>(
             bloc: context.read<RepoBloc>(),
             builder: (context, state) {
@@ -93,10 +67,29 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 final shiftsInMonth = state.shifts.where((shift) {
                   return shift.start?.month == numOfMonth;
                 }).toList();
-                shiftsInMonth.sort(((a, b) => b.start!.compareTo(a.start!)));
+                shiftsInMonth
+                    .sort(((a, b) => a.start!.day.compareTo(b.start!.day)));
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Chart(shifts: shiftsInMonth),
+                );
+              } else {
+                return const Text("dupa");
+              }
+            },
+          ),
+          BlocBuilder<RepoBloc, RepoState>(
+            builder: (context, state) {
+              if (state.status == RepoStateStatus.success) {
+                final numOfMonth =
+                    DateFormat("MMMM").parse(selectedMonth).month;
+                final shiftsInMonth = state.shifts.where((shift) {
+                  return shift.start?.month == numOfMonth;
+                }).toList();
+                final sum = _sumShifts(shiftsInMonth);
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Summary(sum),
                 );
               } else {
                 return const Text("dupa");
@@ -108,15 +101,95 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     );
   }
 
-  // double _getSummary(List<Shift> shifts) {
-  //   return shifts.fold<double>(
-  //       0,
-  //       (p, s) =>
-  //           p +
-  //           s.end!
-  //                   .subtract(const Duration(hours: 8))
-  //                   .difference(s.start!)
-  //                   .inSeconds /
-  //               60);
-  // }
+  double _sumShifts(List<Shift> shifts) {
+    return shifts.fold<double>(
+        0,
+        (p, s) =>
+            p +
+            s.end!
+                    .subtract(const Duration(hours: 8))
+                    .difference(s.start!)
+                    .inSeconds /
+                60);
+  }
+}
+
+abstract class Summary extends StatelessWidget {
+  factory Summary(double value) {
+    if (value < 0) {
+      return NegativeSummary(sum: value);
+    } else {
+      return PositiveSummary(sum: value);
+    }
+  }
+}
+
+class PositiveSummary extends StatelessWidget implements Summary {
+  const PositiveSummary({
+    Key? key,
+    required this.sum,
+  }) : super(key: key);
+
+  final double sum;
+
+  @override
+  Widget build(BuildContext context) {
+    const double _size = 30;
+    return Card(
+      color: Colors.green[50],
+      elevation: 5,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(
+            Icons.add,
+            color: Colors.green[900],
+            size: _size,
+          ),
+          Text(
+            sum.abs().toStringAsFixed(2) + "'",
+            style: TextStyle(
+              fontSize: _size,
+              color: Colors.green[900],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NegativeSummary extends StatelessWidget implements Summary {
+  const NegativeSummary({
+    Key? key,
+    required this.sum,
+  }) : super(key: key);
+
+  final double sum;
+
+  @override
+  Widget build(BuildContext context) {
+    const double _size = 30;
+    return Card(
+      color: Colors.pink[50],
+      elevation: 5,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(
+            Icons.remove,
+            color: Colors.red[900],
+            size: _size,
+          ),
+          Text(
+            sum.abs().toStringAsFixed(2) + "'",
+            style: TextStyle(
+              color: Colors.red[900],
+              fontSize: _size,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

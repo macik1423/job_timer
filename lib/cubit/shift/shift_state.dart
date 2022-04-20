@@ -40,7 +40,7 @@ class ShiftState extends Equatable {
       ShiftState.fromMap(json.decode(source));
 }
 
-// zamianiec to na dodanie pola w ShiftState -> ShiftStateStatus
+//TODO zamianiec to na dodanie pola w ShiftState -> ShiftStateStatus
 class InitialShiftState extends ShiftState {
   const InitialShiftState({
     required Shift shift,

@@ -1,9 +1,0 @@
-- Jesli jest wybrane tylko start to blokuje start, start zostaje odblokowane
-  tylko wtedy jesli bedzie wcisniete end
-- end moze zostac wcisniete i zapisane w lokalnej bazie jesli znadzie
-  start z tego samego dnia
-- ustawione start i end jest zablokowane
-- ustawione start i end zostaje odblokowane jesli zmini sie dzien
-- zrobic dla wszystkuch roznic czasow cubit i tam w liscie przechowywac wszystkie wyniki 
-  z miesiaca, a po misiacu czyscic i ladowac do jakiejs innej agregacji
-flutter packages pub run build_runner build

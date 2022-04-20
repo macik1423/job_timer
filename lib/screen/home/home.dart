@@ -31,21 +31,25 @@ class Home extends StatelessWidget {
               return Column(
                 children: <Widget>[
                   const SizedBox(height: 20),
-                  const Clock(),
+                  Clock(repoState: repoState),
                   ShiftCard(
                     key: const Key('Start'),
-                    color: const Color.fromRGBO(225, 180, 147, 100),
-                    title: 'Start',
+                    color: state.enabledStart
+                        ? Colors.green[300]!
+                        : Colors.grey[400]!,
                     onTap: () {
                       final timeNow = DateTime.now();
                       context.read<ShiftCubit>().updateStart(timeNow);
                     },
                     tappedTime: TimeUtil.formatDateTime(state.shift.start),
                     enabled: state.enabledStart,
+                    title: 'Start',
                   ),
                   ShiftCard(
                     key: const Key('End'),
-                    color: const Color.fromRGBO(225, 180, 147, 100),
+                    color: state.enabledEnd
+                        ? Colors.green[300]!
+                        : Colors.grey[400]!,
                     title: 'End',
                     onTap: () {
                       final timeNow = DateTime.now();

@@ -3,13 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/repo/repo_bloc.dart';
 import '../cubit/shift/shift_cubit.dart';
 import '../time_util.dart';
 
 class Clock extends StatefulWidget {
   const Clock({
     Key? key,
+    required this.repoState,
   }) : super(key: key);
+
+  final RepoState repoState;
 
   @override
   State<Clock> createState() => _ClockState();
@@ -17,7 +21,7 @@ class Clock extends StatefulWidget {
 
 class _ClockState extends State<Clock> {
   late Timer _timer;
-  String _date = "";
+  late String _date = "";
 
   @override
   void dispose() {
@@ -31,9 +35,15 @@ class _ClockState extends State<Clock> {
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         final start = context.read<ShiftCubit>().state.shift.start;
+        final end = context.read<ShiftCubit>().state.shift.end;
+        final isExist =
+            widget.repoState.shifts.any((shift) => shift.start == start);
+
         _date = TimeUtil.formatDate(DateTime.now());
-        final tappedTime = TimeUtil.formatDate(start);
-        if (tappedTime != _date) {
+        final startTappedTime = TimeUtil.formatDate(start);
+        final endTappedTime = TimeUtil.formatDate(end);
+        if (startTappedTime != _date ||
+            !isExist && endTappedTime == _date && startTappedTime == _date) {
           BlocProvider.of<ShiftCubit>(context).resetNewDay();
         }
       });

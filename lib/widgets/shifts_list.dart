@@ -52,7 +52,7 @@ class ShiftsList extends StatelessWidget {
                 alignment: Alignment.center,
                 color: diff! < 0 ? Colors.pink[50] : Colors.green[50],
                 child: Text(
-                  "${(diff / 60).toString()}'",
+                  "${(diff / 60).toStringAsFixed(2)}'",
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),

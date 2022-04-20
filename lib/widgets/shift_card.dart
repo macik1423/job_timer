@@ -20,6 +20,7 @@ class ShiftCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
       child: Card(
+        elevation: 5,
         clipBehavior: Clip.antiAlias,
         color: color,
         child: Column(

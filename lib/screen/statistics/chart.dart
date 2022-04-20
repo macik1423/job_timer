@@ -12,25 +12,20 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  List<Color> gradientColors = [
-    const Color(0xff23b6e6),
-    const Color(0xff02d39a),
-  ];
-
-  final axisHelperColor = const Color(0x80cacaca);
+  final axisHelperColor = Colors.grey[300];
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         Card(
-          elevation: 3,
+          elevation: 5,
           child: AspectRatio(
-            aspectRatio: 1.70,
+            aspectRatio: 0.70,
             child: Padding(
               padding: const EdgeInsets.only(
                   right: 18.0, left: 18.0, top: 40, bottom: 12),
-              child: LineChart(
+              child: BarChart(
                 mainData(),
               ),
             ),
@@ -66,21 +61,17 @@ class _ChartState extends State<Chart> {
     );
   }
 
-  LineChartData mainData() {
+  BarChartData mainData() {
     const cutOffYValue = 0.0;
-    return LineChartData(
+    return BarChartData(
       gridData: FlGridData(
         show: true,
-        drawVerticalLine: true,
+        drawVerticalLine: false,
         horizontalInterval: 10,
-        verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: axisHelperColor,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
+          if (value == 0) {
+            return FlLine(color: Colors.grey[300], strokeWidth: 2);
+          }
           return FlLine(
             color: axisHelperColor,
             strokeWidth: 1,
@@ -115,58 +106,57 @@ class _ChartState extends State<Chart> {
             showTitles: true,
             interval: 20,
             getTitlesWidget: leftTitleWidgets,
-            reservedSize: 30,
+            reservedSize: 40,
           ),
         ),
       ),
       borderData: FlBorderData(
         show: true,
         border: Border.all(
-          color: axisHelperColor,
+          color: axisHelperColor!,
           width: 1,
         ),
       ),
-      minX: 1,
-      maxX: 35,
-      minY: -80,
-      maxY: 80,
-      lineBarsData: [
-        LineChartBarData(
-          spots: widget.shifts.map(
-            (shift) {
-              final diff = shift.end!
-                      .subtract(const Duration(hours: 8))
-                      .difference(shift.start!)
-                      .inSeconds /
-                  60;
-              return FlSpot(shift.start!.day * 1.0, diff);
-            },
-          ).toList(),
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          barWidth: 3,
-          isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: false,
-          ),
-          aboveBarData: BarAreaData(
-            show: true,
-            color: Colors.orange.withOpacity(0.5),
-            cutOffY: cutOffYValue,
-            applyCutOffY: true,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            color: Colors.green.withOpacity(0.5),
-            cutOffY: cutOffYValue,
-            applyCutOffY: true,
-          ),
-        ),
-      ],
+      minY: -180,
+      maxY: 180,
+      baselineY: cutOffYValue,
+      barGroups: getData().isNotEmpty ? getData() : getEmptyData(),
     );
+  }
+
+  List<BarChartGroupData> getEmptyData() {
+    return [
+      BarChartGroupData(
+        x: 0,
+        barsSpace: 2,
+        barRods: [
+          BarChartRodData(
+            toY: 0,
+            borderRadius: const BorderRadius.all(Radius.zero),
+          ),
+        ],
+      )
+    ];
+  }
+
+  List<BarChartGroupData> getData() {
+    return widget.shifts.map((s) {
+      final diff = s.end!
+              .subtract(const Duration(hours: 8))
+              .difference(s.start!)
+              .inSeconds /
+          60;
+      return BarChartGroupData(
+        x: s.start!.day,
+        barsSpace: 2,
+        barRods: [
+          BarChartRodData(
+            color: diff > 0 ? Colors.green[300] : Colors.pink[300],
+            toY: diff,
+            borderRadius: const BorderRadius.all(Radius.zero),
+          ),
+        ],
+      );
+    }).toList();
   }
 }

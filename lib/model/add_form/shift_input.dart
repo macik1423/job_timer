@@ -24,4 +24,9 @@ class ShiftDateInput extends Equatable {
 
   @override
   List<Object?> get props => [year, month, day];
+
+  @override
+  String toString() {
+    return day;
+  }
 }
