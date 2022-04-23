@@ -107,8 +107,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }
               },
               builder: (context, state) {
+                final yearNow = DateTime.now().year;
                 final shifts = state.shifts.where((shift) {
-                  return shift.start?.month == numOfMonth;
+                  return shift.start?.month == numOfMonth &&
+                      shift.start?.year == yearNow;
                 }).toList();
                 if (shifts.isNotEmpty) {
                   shifts.sort(((a, b) => b.start!.compareTo(a.start!)));

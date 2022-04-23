@@ -58,33 +58,37 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               },
             ),
           ),
-          BlocBuilder<RepoBloc, RepoState>(
-            bloc: context.read<RepoBloc>(),
-            builder: (context, state) {
-              if (state.status == RepoStateStatus.success) {
-                final numOfMonth =
-                    DateFormat("MMMM").parse(selectedMonth).month;
-                final shiftsInMonth = state.shifts.where((shift) {
-                  return shift.start?.month == numOfMonth;
-                }).toList();
-                shiftsInMonth
-                    .sort(((a, b) => a.start!.day.compareTo(b.start!.day)));
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Chart(shifts: shiftsInMonth),
-                );
-              } else {
-                return const Text("dupa");
-              }
-            },
+          Expanded(
+            child: BlocBuilder<RepoBloc, RepoState>(
+              bloc: context.read<RepoBloc>(),
+              builder: (context, state) {
+                if (state.status == RepoStateStatus.success) {
+                  final numOfMonth =
+                      DateFormat("MMMM").parse(selectedMonth).month;
+                  final shiftsInMonth = state.shifts.where((shift) {
+                    return shift.start?.month == numOfMonth;
+                  }).toList();
+                  shiftsInMonth
+                      .sort(((a, b) => a.start!.day.compareTo(b.start!.day)));
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Chart(shifts: shiftsInMonth),
+                  );
+                } else {
+                  return const Text("dupa");
+                }
+              },
+            ),
           ),
           BlocBuilder<RepoBloc, RepoState>(
             builder: (context, state) {
               if (state.status == RepoStateStatus.success) {
+                final yearNow = DateTime.now().year;
                 final numOfMonth =
                     DateFormat("MMMM").parse(selectedMonth).month;
                 final shiftsInMonth = state.shifts.where((shift) {
-                  return shift.start?.month == numOfMonth;
+                  return shift.start?.month == numOfMonth &&
+                      shift.start?.year == yearNow;
                 }).toList();
                 final sum = _sumShifts(shiftsInMonth);
                 return Padding(

@@ -38,7 +38,7 @@ class _ChartState extends State<Chart> {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 12,
+      fontSize: 10,
     );
     return Padding(
       child: Text(
@@ -91,8 +91,7 @@ class _ChartState extends State<Chart> {
           axisNameWidget: const Text('days'),
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
-            interval: 5,
+            reservedSize: 40,
             getTitlesWidget: bottomTitleWidgets,
           ),
         ),
@@ -128,7 +127,7 @@ class _ChartState extends State<Chart> {
     return [
       BarChartGroupData(
         x: 0,
-        barsSpace: 2,
+        barsSpace: 1,
         barRods: [
           BarChartRodData(
             toY: 0,
@@ -148,7 +147,7 @@ class _ChartState extends State<Chart> {
           60;
       return BarChartGroupData(
         x: s.start!.day,
-        barsSpace: 2,
+        barsSpace: 1,
         barRods: [
           BarChartRodData(
             color: diff > 0 ? Colors.green[300] : Colors.pink[300],
