@@ -62,6 +62,12 @@ dev_dependencies:
   json_serializable: ^6.0.0
   hive_generator: ^1.1.2
   mocktail: ^0.3.0
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
