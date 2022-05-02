@@ -18,16 +18,13 @@ class _ChartState extends State<Chart> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Card(
-          elevation: 5,
-          child: AspectRatio(
-            aspectRatio: 0.70,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  right: 18.0, left: 18.0, top: 40, bottom: 12),
-              child: BarChart(
-                mainData(),
-              ),
+        AspectRatio(
+          aspectRatio: 0.70,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                right: 18.0, left: 18.0, top: 40, bottom: 12),
+            child: BarChart(
+              mainData(),
             ),
           ),
         ),

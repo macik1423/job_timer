@@ -23,9 +23,7 @@ class ShiftsList extends StatelessWidget {
       columns: [
         DataColumn(label: Text(startText)),
         DataColumn(label: Text(endText)),
-        DataColumn(
-          label: Text(dateText),
-        ),
+        DataColumn(label: Text(dateText)),
         DataColumn(label: Text(diffText)),
       ],
       rows: shifts.map((shift) {
