@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/shift.dart';
+import '../../util/constants.dart' as constants;
 
 class Chart extends StatefulWidget {
   final List<Shift> shifts;
@@ -85,7 +86,7 @@ class _ChartState extends State<Chart> {
         ),
         bottomTitles: AxisTitles(
           axisNameSize: 20,
-          axisNameWidget: const Text('days'),
+          axisNameWidget: const Text(constants.daysText),
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 40,
@@ -96,7 +97,7 @@ class _ChartState extends State<Chart> {
           axisNameSize: 20,
           axisNameWidget: const Padding(
             padding: EdgeInsets.only(bottom: 2.0),
-            child: Text('minutes'),
+            child: Text(constants.minutesText),
           ),
           sideTitles: SideTitles(
             showTitles: true,

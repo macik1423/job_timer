@@ -1,9 +1,9 @@
 import 'package:rxdart/subjects.dart';
 import 'package:timer/model/shift.dart';
 
-import '../exception.dart';
 import '../shift_box.dart';
-import '../time_util.dart';
+import '../util/exception.dart';
+import '../util/time_util.dart';
 import 'shift_api.dart';
 
 class ShiftHiveApi extends ShiftApi {

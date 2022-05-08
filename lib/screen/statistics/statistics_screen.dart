@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
 import '../../model/shift.dart';
+import '../../util/constants.dart' as constants;
 import 'chart.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -18,26 +19,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
     return Center(
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
             child: DropdownButton(
+              key: const Key(constants.monthsText),
               value: selectedMonth,
               underline: Container(
                 height: 2,
@@ -45,7 +33,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ),
               icon: const Icon(Icons.arrow_downward),
               elevation: 16,
-              items: months.map<DropdownMenuItem<String>>((String value) {
+              items: constants.monthsListText
+                  .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -59,6 +48,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ),
           Expanded(
+            key: const Key(constants.chartText),
             child: BlocBuilder<RepoBloc, RepoState>(
               bloc: context.read<RepoBloc>(),
               builder: (context, state) {
@@ -72,7 +62,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       .sort(((a, b) => a.start!.day.compareTo(b.start!.day)));
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Chart(shifts: shiftsInMonth),
+                    child: Chart(
+                      shifts: shiftsInMonth,
+                    ),
                   );
                 } else {
                   return const Text("dupa");
@@ -81,6 +73,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ),
           BlocBuilder<RepoBloc, RepoState>(
+            key: const Key(constants.summaryText),
             builder: (context, state) {
               if (state.status == RepoStateStatus.success) {
                 final yearNow = DateTime.now().year;

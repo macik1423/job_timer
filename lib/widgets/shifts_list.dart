@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:timer/model/shift.dart';
 
-import '../time_util.dart';
+import '../util/constants.dart' as constants;
+import '../util/time_util.dart';
 
 class ShiftsList extends StatelessWidget {
-  final String startText = 'Start';
-  final String endText = 'End';
-  final String dateText = 'Date';
-  final String diffText = 'Difference';
   final List<Shift> shifts;
   final int normalShift = 8;
   final Function(Shift shift) press;
@@ -20,11 +17,11 @@ class ShiftsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataTable(
-      columns: [
-        DataColumn(label: Text(startText)),
-        DataColumn(label: Text(endText)),
-        DataColumn(label: Text(dateText)),
-        DataColumn(label: Text(diffText)),
+      columns: const [
+        DataColumn(label: Text(constants.inText)),
+        DataColumn(label: Text(constants.outText)),
+        DataColumn(label: Text(constants.dateText)),
+        DataColumn(label: Text(constants.differenceText)),
       ],
       rows: shifts.map((shift) {
         final start = shift.start;

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/repo/repo_bloc.dart';
 import '../cubit/shift/shift_cubit.dart';
-import '../time_util.dart';
+import '../util/time_util.dart';
 
 class Clock extends StatefulWidget {
   const Clock({

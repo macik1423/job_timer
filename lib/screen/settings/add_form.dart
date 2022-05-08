@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timer/time_of_day_converter.dart';
+import 'package:timer/util/time_of_day_converter.dart';
 
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';

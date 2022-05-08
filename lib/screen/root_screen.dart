@@ -6,6 +6,7 @@ import 'package:timer/screen/statistics/statistics.dart';
 
 import '../cubit/navigation/navigation_cubit.dart';
 import '../cubit/navigation/navigation_item.dart';
+import '../util/constants.dart' as constants;
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);
@@ -28,19 +29,19 @@ class _RootScreenState extends State<RootScreen> {
                 icon: Icon(
                   Icons.home,
                 ),
-                label: 'Dashboard',
+                label: constants.dashboardText,
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.settings,
                 ),
-                label: 'Settings',
+                label: constants.settingsText,
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.stacked_bar_chart_sharp,
                 ),
-                label: 'Stats',
+                label: constants.statsText,
               ),
             ],
             onTap: (index) {

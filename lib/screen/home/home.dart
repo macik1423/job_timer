@@ -5,7 +5,8 @@ import '../../bloc/repo/repo_bloc.dart';
 import '../../cubit/shift/shift_cubit.dart';
 import '../../cubit/shift/shift_state.dart';
 import '../../model/shift.dart';
-import '../../time_util.dart';
+import '../../util/constants.dart' as constants;
+import '../../util/time_util.dart';
 import '../../widgets/clock.dart';
 import '../../widgets/shift_card.dart';
 import 'first_shifts.dart';
@@ -33,7 +34,7 @@ class Home extends StatelessWidget {
                   const SizedBox(height: 20),
                   Clock(repoState: repoState),
                   ShiftCard(
-                    key: const Key('Start'),
+                    key: const Key(constants.inText),
                     color: state.enabledStart
                         ? Colors.green[300]!
                         : Colors.grey[400]!,
@@ -43,14 +44,14 @@ class Home extends StatelessWidget {
                     },
                     tappedTime: TimeUtil.formatDateTime(state.shift.start),
                     enabled: state.enabledStart,
-                    title: 'Start',
+                    title: constants.inText,
                   ),
                   ShiftCard(
-                    key: const Key('End'),
+                    key: const Key(constants.outText),
                     color: state.enabledEnd
                         ? Colors.green[300]!
                         : Colors.grey[400]!,
-                    title: 'End',
+                    title: constants.outText,
                     onTap: () {
                       final timeNow = DateTime.now();
                       context.read<RepoBloc>().add(

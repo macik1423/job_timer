@@ -7,7 +7,8 @@ import 'package:timer/screen/settings/add_form.dart';
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';
 import '../../model/shift.dart';
-import '../../time_util.dart';
+import '../../util/constants.dart' as constants;
+import '../../util/time_util.dart';
 import '../../widgets/shifts_list.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -54,20 +55,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final numOfMonth = DateFormat("MMMM").parse(selectedValue).month;
     AddFormBloc addFormBloc = BlocProvider.of<AddFormBloc>(context);
     RepoBloc repoBloc = BlocProvider.of<RepoBloc>(context);
-    final List<String> months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
     return Scaffold(
       body: Center(
         child: Column(
@@ -75,6 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 40.0),
               child: DropdownButton(
+                key: const Key(constants.monthsText),
                 value: selectedValue,
                 underline: Container(
                   height: 2,
@@ -82,7 +70,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 icon: const Icon(Icons.arrow_downward),
                 elevation: 16,
-                items: months.map<DropdownMenuItem<String>>((String value) {
+                items: constants.monthsListText
+                    .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -107,57 +96,63 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }
               },
               builder: (context, state) {
-                final yearNow = DateTime.now().year;
-                final shifts = state.shifts.where((shift) {
-                  return shift.start?.month == numOfMonth &&
-                      shift.start?.year == yearNow;
-                }).toList();
-                if (shifts.isNotEmpty) {
-                  shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
-                }
-                return Expanded(
-                  child: ListView(
-                    controller: _hideButtonController,
-                    children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: FittedBox(
-                          child: ShiftsList(
-                            shifts: shifts,
-                            press: (Shift shift) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    actions: [
-                                      TextButton(
-                                        child: const Text("Cancel"),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: const Text("OK"),
-                                        onPressed: () {
-                                          repoBloc.add(RepoShiftDeleted(shift));
-                                          Navigator.of(context).pop();
-                                        },
-                                      )
-                                    ],
-                                    title: Text(
-                                        "Delete shift from ${TimeUtil.formatDate(shift.start)}?"),
-                                    content: const Text(
-                                        'Are you sure you want to delete this shift?'),
-                                  );
-                                },
-                              );
-                            },
+                if (state.status == RepoStateStatus.success) {
+                  final yearNow = DateTime.now().year;
+                  final shifts = state.shifts.where((shift) {
+                    return shift.start?.month == numOfMonth &&
+                        shift.start?.year == yearNow;
+                  }).toList();
+                  if (shifts.isNotEmpty) {
+                    shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
+                  }
+                  return Expanded(
+                    child: ListView(
+                      controller: _hideButtonController,
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: FittedBox(
+                            child: ShiftsList(
+                              shifts: shifts,
+                              press: (Shift shift) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      actions: [
+                                        TextButton(
+                                          child:
+                                              const Text(constants.cancelText),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text(constants.okText),
+                                          onPressed: () {
+                                            repoBloc
+                                                .add(RepoShiftDeleted(shift));
+                                            Navigator.of(context).pop();
+                                          },
+                                        )
+                                      ],
+                                      title: Text(
+                                          "Delete shift from ${TimeUtil.formatDate(shift.start)}?"),
+                                      content: const Text(
+                                          "Are you sure you want to delete this shift?"),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Text("dupa");
+                }
               },
             ),
           ],

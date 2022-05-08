@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:timer/repository/shift_repository.dart';
 
-import '../../exception.dart';
 import '../../model/shift.dart';
+import '../../util/exception.dart';
 
 part 'repo_event.dart';
 part 'repo_state.dart';
