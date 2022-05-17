@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:timer/util/time_of_day_converter.dart';
+import 'package:timer/util/time_of_day_converter_extension.dart';
 
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';
@@ -146,7 +146,13 @@ class _AddFormState extends State<AddForm> {
                                 time.end.hour,
                                 time.end.minute,
                               );
-                              final shift = Shift(start: start, end: end);
+                              final shift = Shift(
+                                start: start,
+                                end: end,
+                                duration: const Duration(
+                                  hours: 8,
+                                ),
+                              );
                               RepoBloc repoBloc = context.read<RepoBloc>();
                               repoBloc.add(
                                 RepoShiftSaved(shift),

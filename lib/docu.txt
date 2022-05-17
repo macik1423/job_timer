@@ -1,2 +1,10 @@
 flutter clean
 flutter build appbundle
+
+// generate model g hive; add to hive file: part 'shift.g.dart';
+flutter packages pub run build_runner build
+flutter packages pub run build_runner build --delete-conflicting-outputs
+
+// after adding in pubspec.yaml
+flutter clean
+flutter pub get

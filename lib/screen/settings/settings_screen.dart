@@ -52,6 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
     final numOfMonth = DateFormat("MMMM").parse(selectedValue).month;
     AddFormBloc addFormBloc = BlocProvider.of<AddFormBloc>(context);
     RepoBloc repoBloc = BlocProvider.of<RepoBloc>(context);

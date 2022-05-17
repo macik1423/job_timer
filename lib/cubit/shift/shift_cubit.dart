@@ -6,51 +6,59 @@ import '../../model/shift.dart';
 class ShiftCubit extends HydratedCubit<ShiftState> {
   ShiftCubit()
       : super(
-          InitialShiftState(
+          ShiftState(
             shift: Shift(
               start: null,
               end: null,
+              duration: const Duration(hours: 8),
             ),
             enabledStart: true,
             enabledEnd: false,
+            status: ShiftStateStatus.initial,
           ),
         );
 
   void updateStart(DateTime start) {
     emit(
-      StartTapped(
+      ShiftState(
         shift: Shift(
           start: start,
           end: null,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: false,
         enabledEnd: true,
+        status: ShiftStateStatus.startTapped,
       ),
     );
   }
 
   void updateEnd(DateTime end) {
     emit(
-      EndTapped(
+      ShiftState(
         shift: Shift(
           start: state.shift.start,
           end: end,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: false,
         enabledEnd: false,
+        status: ShiftStateStatus.endTapped,
       ),
     );
   }
 
   void resetNewDay() {
     emit(
-      InitialShiftState(
+      ShiftState(
         shift: Shift(
           start: null,
           end: null,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: true,
         enabledEnd: false,
+        status: ShiftStateStatus.initial,
       ),
     );
   }

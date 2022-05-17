@@ -30,10 +30,19 @@ class FirstShiftsList extends StatelessWidget {
           shifts.sort(((a, b) => b.start!.compareTo(a.start!)));
         }
         final firstShifts = shifts.take(_firstElements).toList();
-        return FittedBox(
-          child: ShiftsList(
-            shifts: firstShifts,
-            press: (Shift shift) {},
+        return Expanded(
+          child: ListView(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: FittedBox(
+                  child: ShiftsList(
+                    shifts: firstShifts,
+                    press: (Shift shift) {},
+                  ),
+                ),
+              )
+            ],
           ),
         );
       },

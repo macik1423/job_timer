@@ -11,11 +11,17 @@ import '../../widgets/clock.dart';
 import '../../widgets/shift_card.dart';
 import 'first_shifts.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
   Widget build(BuildContext context) {
+    double _currentSliderValue = 8;
     return Scaffold(
       body: BlocConsumer<RepoBloc, RepoState>(
         listener: (repoContext, repoState) {
@@ -59,6 +65,8 @@ class Home extends StatelessWidget {
                               Shift(
                                 start: state.shift.start,
                                 end: timeNow,
+                                duration: Duration(
+                                    hours: _currentSliderValue.toInt()),
                               ),
                             ),
                           );
@@ -66,6 +74,18 @@ class Home extends StatelessWidget {
                     },
                     tappedTime: TimeUtil.formatDateTime(state.shift.end),
                     enabled: state.enabledEnd,
+                  ),
+                  Slider(
+                    value: _currentSliderValue,
+                    max: 12,
+                    min: 8,
+                    divisions: 5,
+                    label: _currentSliderValue.round().toString(),
+                    onChanged: (double value) {
+                      setState(() {
+                        _currentSliderValue = value;
+                      });
+                    },
                   ),
                   const FirstShiftsList(),
                 ],

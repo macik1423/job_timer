@@ -4,33 +4,39 @@ import 'package:equatable/equatable.dart';
 
 import '../../model/shift.dart';
 
+enum ShiftStateStatus { initial, startTapped, endTapped }
+
 class ShiftState extends Equatable {
   final Shift shift;
   final bool enabledStart;
   final bool enabledEnd;
+  final ShiftStateStatus status;
 
-  const ShiftState(
-    this.shift,
-    this.enabledStart,
-    this.enabledEnd,
-  );
+  const ShiftState({
+    required this.shift,
+    required this.enabledStart,
+    required this.enabledEnd,
+    required this.status,
+  });
 
   @override
-  List<Object> get props => [shift, enabledStart, enabledEnd];
+  List<Object> get props => [shift, enabledStart, enabledEnd, status];
 
   Map<String, dynamic> toMap() {
     return {
       'shift': shift.toMap(),
       'enabledStart': enabledStart,
       'enabledEnd': enabledEnd,
+      'status': status,
     };
   }
 
   factory ShiftState.fromMap(Map<String, dynamic> map) {
     return ShiftState(
-      Shift.fromMap(map['shift']),
-      map['enabledStart'] ?? false,
-      map['enabledEnd'] ?? false,
+      shift: Shift.fromMap(map['shift']),
+      enabledStart: map['enabledStart'] ?? false,
+      enabledEnd: map['enabledEnd'] ?? false,
+      status: map['status'] ?? ShiftStateStatus.initial,
     );
   }
 
@@ -38,29 +44,4 @@ class ShiftState extends Equatable {
 
   factory ShiftState.fromJson(String source) =>
       ShiftState.fromMap(json.decode(source));
-}
-
-//TODO zamianiec to na dodanie pola w ShiftState -> ShiftStateStatus
-class InitialShiftState extends ShiftState {
-  const InitialShiftState({
-    required Shift shift,
-    required bool enabledStart,
-    required bool enabledEnd,
-  }) : super(shift, enabledStart, enabledEnd);
-}
-
-class StartTapped extends ShiftState {
-  const StartTapped({
-    required Shift shift,
-    required bool enabledStart,
-    required bool enabledEnd,
-  }) : super(shift, enabledStart, enabledEnd);
-}
-
-class EndTapped extends ShiftState {
-  const EndTapped({
-    required Shift shift,
-    required bool enabledStart,
-    required bool enabledEnd,
-  }) : super(shift, enabledStart, enabledEnd);
 }

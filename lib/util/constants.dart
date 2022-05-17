@@ -26,3 +26,4 @@ const String statsText = "Stats";
 const String monthsText = "Months";
 const String chartText = "Chart";
 const String summaryText = "Summary";
+const String durationText = "Duration";

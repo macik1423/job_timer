@@ -12,15 +12,20 @@ class Shift extends HiveObject {
   @HiveField(1)
   final DateTime? end;
 
-  Shift({required this.start, required this.end});
+  @HiveField(2, defaultValue: Duration(hours: 8))
+  final Duration? duration;
+
+  Shift({required this.start, required this.end, required this.duration});
 
   Shift copyWith({
     DateTime? start,
     DateTime? end,
+    Duration? duration,
   }) {
     return Shift(
       start: start ?? this.start,
       end: end ?? this.end,
+      duration: duration ?? this.duration,
     );
   }
 
@@ -28,6 +33,7 @@ class Shift extends HiveObject {
     return {
       'start': start?.millisecondsSinceEpoch,
       'end': end?.millisecondsSinceEpoch,
+      'duration': duration?.inMilliseconds,
     };
   }
 
@@ -39,10 +45,26 @@ class Shift extends HiveObject {
       end: map['end'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['end'])
           : null,
+      duration: map['duration'] != null
+          ? Duration(milliseconds: map['duration'])
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Shift.fromJson(String source) => Shift.fromMap(json.decode(source));
+
+  // Equatable does not work with HiveObjects
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Shift &&
+          runtimeType == other.runtimeType &&
+          start == other.start &&
+          end == other.end &&
+          duration == other.duration;
+
+  @override
+  int get hashCode => start.hashCode ^ end.hashCode ^ duration.hashCode;
 }

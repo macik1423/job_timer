@@ -39,17 +39,20 @@ void main() {
           (i) => Shift(
             start: DateTime(yearNow, month, 1, 1, i, 0),
             end: DateTime(yearNow, month, 1, 9, i, 0),
+            duration: const Duration(hours: 8),
           ),
         ),
         status: RepoStateStatus.success,
       ));
-      when(() => mockShiftCubit.state).thenReturn(InitialShiftState(
+      when(() => mockShiftCubit.state).thenReturn(ShiftState(
         shift: Shift(
           start: null,
           end: null,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: true,
         enabledEnd: false,
+        status: ShiftStateStatus.initial,
       ));
 
       await mockHydratedStorage(() async {
@@ -83,7 +86,7 @@ void main() {
     });
 
     testWidgets(
-        'when scroll down list of shifts then floating action bar should change opacity',
+        'when list of shifts scroll down then floating action bar should change opacity',
         (tester) async {
       final yearNow = DateTime.now().year;
       final month = DateTime.now().month;
@@ -95,17 +98,20 @@ void main() {
           (i) => Shift(
             start: DateTime(yearNow, month, 1, 1, i, 0),
             end: DateTime(yearNow, month, 1, 9, i, 0),
+            duration: const Duration(hours: 8),
           ),
         ),
         status: RepoStateStatus.success,
       ));
-      when(() => mockShiftCubit.state).thenReturn(InitialShiftState(
+      when(() => mockShiftCubit.state).thenReturn(ShiftState(
         shift: Shift(
           start: null,
           end: null,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: true,
         enabledEnd: false,
+        status: ShiftStateStatus.initial,
       ));
 
       await mockHydratedStorage(() async {

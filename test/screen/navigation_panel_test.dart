@@ -43,13 +43,15 @@ void main() {
       when(() => mockNavigationCubit.state).thenReturn(
           const NavigationState(navbarItem: NavbarItem.home, index: 0));
       when(() => mockRepoBloc.state).thenReturn(const RepoState());
-      when(() => mockShiftCubit.state).thenReturn(InitialShiftState(
+      when(() => mockShiftCubit.state).thenReturn(ShiftState(
         shift: Shift(
           start: null,
           end: null,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: true,
         enabledEnd: false,
+        status: ShiftStateStatus.initial,
       ));
       final icon = find.byIcon(Icons.home);
       await mockHydratedStorage(() async {
@@ -82,13 +84,15 @@ void main() {
           const NavigationState(navbarItem: NavbarItem.home, index: 0));
       when(() => mockRepoBloc.state)
           .thenReturn(const RepoState(status: RepoStateStatus.success));
-      when(() => mockShiftCubit.state).thenReturn(InitialShiftState(
+      when(() => mockShiftCubit.state).thenReturn(ShiftState(
         shift: Shift(
           start: null,
           end: null,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: true,
         enabledEnd: false,
+        status: ShiftStateStatus.initial,
       ));
       when(() => mockNavigationCubit.state).thenReturn(
           const NavigationState(navbarItem: NavbarItem.settings, index: 1));
@@ -130,13 +134,15 @@ void main() {
       when(() => mockNavigationCubit.state).thenReturn(
           const NavigationState(navbarItem: NavbarItem.home, index: 0));
       when(() => mockRepoBloc.state).thenReturn(const RepoState());
-      when(() => mockShiftCubit.state).thenReturn(InitialShiftState(
+      when(() => mockShiftCubit.state).thenReturn(ShiftState(
         shift: Shift(
           start: null,
           end: null,
+          duration: const Duration(hours: 8),
         ),
         enabledStart: true,
         enabledEnd: false,
+        status: ShiftStateStatus.initial,
       ));
       when(() => mockNavigationCubit.state).thenReturn(
           const NavigationState(navbarItem: NavbarItem.statistics, index: 2));

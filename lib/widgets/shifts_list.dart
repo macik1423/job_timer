@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timer/model/shift.dart';
+import 'package:timer/util/duration_extension.dart';
 
 import '../util/constants.dart' as constants;
 import '../util/time_util.dart';
@@ -22,6 +23,7 @@ class ShiftsList extends StatelessWidget {
         DataColumn(label: Text(constants.outText)),
         DataColumn(label: Text(constants.dateText)),
         DataColumn(label: Text(constants.differenceText)),
+        DataColumn(label: Text(constants.durationText)),
       ],
       rows: shifts.map((shift) {
         final start = shift.start;
@@ -52,6 +54,9 @@ class ShiftsList extends StatelessWidget {
                 ),
               ),
             ),
+            DataCell(Text(
+              shift.duration!.toHoursMinutes() + " h",
+            )),
           ],
         );
       }).toList(),

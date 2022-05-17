@@ -18,7 +18,13 @@ class MockBox<T> extends Mock implements Box<T> {}
 class MockShiftApi extends Mock implements ShiftApi {}
 
 void main() {
-  List<Shift> shiftList = [Shift(start: DateTime.now(), end: DateTime.now())];
+  List<Shift> shiftList = [
+    Shift(
+      start: DateTime.now(),
+      end: DateTime.now(),
+      duration: const Duration(hours: 8),
+    )
+  ];
   group('repository', () {
     late ShiftRepository shiftRepository;
     late ShiftApi mockShiftApi;
@@ -45,7 +51,11 @@ void main() {
     });
 
     test('should save shift when saveShift is called', () async {
-      final newShift = Shift(start: DateTime.now(), end: DateTime.now());
+      final newShift = Shift(
+        start: DateTime.now(),
+        end: DateTime.now(),
+        duration: const Duration(hours: 8),
+      );
       when(() => mockShiftApi.saveShift(newShift))
           .thenAnswer((_) => Future.value());
 
