@@ -27,7 +27,7 @@ class ShiftState extends Equatable {
       'shift': shift.toMap(),
       'enabledStart': enabledStart,
       'enabledEnd': enabledEnd,
-      'status': status,
+      'status': status.index,
     };
   }
 
@@ -36,7 +36,7 @@ class ShiftState extends Equatable {
       shift: Shift.fromMap(map['shift']),
       enabledStart: map['enabledStart'] ?? false,
       enabledEnd: map['enabledEnd'] ?? false,
-      status: map['status'] ?? ShiftStateStatus.initial,
+      status: map['status'] ?? ShiftStateStatus.values.elementAt(map['status']),
     );
   }
 
