@@ -24,5 +24,17 @@ void main() {
         );
       });
     });
+
+    group('toJson/fromJson', () {
+      test('work properly', () async {
+        await mockHydratedStorage(() {
+          final shiftCubit = ShiftCubit();
+          expect(
+            shiftCubit.fromJson(shiftCubit.toJson(shiftCubit.state)),
+            shiftCubit.state,
+          );
+        });
+      });
+    });
   });
 }

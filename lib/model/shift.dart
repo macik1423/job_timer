@@ -1,10 +1,10 @@
-import 'dart:convert';
-
 import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'shift.g.dart';
 
 @HiveType(typeId: 1)
+@JsonSerializable()
 class Shift extends HiveObject {
   @HiveField(0)
   final DateTime? start;
@@ -29,33 +29,11 @@ class Shift extends HiveObject {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'start': start?.millisecondsSinceEpoch,
-      'end': end?.millisecondsSinceEpoch,
-      'duration': duration?.inMilliseconds,
-    };
-  }
+  Map<String, dynamic> toJson() => _$ShiftToJson(this);
 
-  factory Shift.fromMap(Map<String, dynamic> map) {
-    return Shift(
-      start: map['start'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['start'])
-          : null,
-      end: map['end'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['end'])
-          : null,
-      duration: map['duration'] != null
-          ? Duration(milliseconds: map['duration'])
-          : null,
-    );
-  }
+  factory Shift.fromJson(Map<String, dynamic> json) => _$ShiftFromJson(json);
 
-  String toJson() => json.encode(toMap());
-
-  factory Shift.fromJson(String source) => Shift.fromMap(json.decode(source));
-
-  // Equatable does not work with HiveObjects
+  // Equatable does not work with HiveObjects, necessary to override hashCode ==
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

@@ -48,6 +48,7 @@ dependencies:
   formz: ^0.4.1
   flutter_services_binding: ^0.1.0
   fl_chart: ^0.50.1
+  json_serializable: ^6.2.0
 
 dev_dependencies:
   flutter_test:

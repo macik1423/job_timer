@@ -1,11 +1,15 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../model/shift.dart';
 
+part 'shift_state.g.dart';
+
 enum ShiftStateStatus { initial, startTapped, endTapped }
 
+@JsonSerializable()
 class ShiftState extends Equatable {
   final Shift shift;
   final bool enabledStart;
@@ -22,26 +26,8 @@ class ShiftState extends Equatable {
   @override
   List<Object> get props => [shift, enabledStart, enabledEnd, status];
 
-  Map<String, dynamic> toMap() {
-    return {
-      'shift': shift.toMap(),
-      'enabledStart': enabledStart,
-      'enabledEnd': enabledEnd,
-      'status': status.index,
-    };
-  }
+  Map<String, dynamic> toJson() => _$ShiftStateToJson(this);
 
-  factory ShiftState.fromMap(Map<String, dynamic> map) {
-    return ShiftState(
-      shift: Shift.fromMap(map['shift']),
-      enabledStart: map['enabledStart'] ?? false,
-      enabledEnd: map['enabledEnd'] ?? false,
-      status: map['status'] ?? ShiftStateStatus.values.elementAt(map['status']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory ShiftState.fromJson(String source) =>
-      ShiftState.fromMap(json.decode(source));
+  factory ShiftState.fromJson(Map<String, dynamic> json) =>
+      _$ShiftStateFromJson(json);
 }

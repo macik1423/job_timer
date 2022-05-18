@@ -64,12 +64,12 @@ class ShiftCubit extends HydratedCubit<ShiftState> {
   }
 
   @override
-  ShiftState? fromJson(Map<String, dynamic> json) {
-    return ShiftState.fromMap(json);
+  ShiftState fromJson(Map<String, dynamic> json) {
+    return ShiftState.fromJson(json);
   }
 
   @override
-  Map<String, dynamic>? toJson(ShiftState state) {
-    return state.toMap();
+  Map<String, dynamic> toJson(ShiftState state) {
+    return state.toJson();
   }
 }

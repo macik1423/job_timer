@@ -20,17 +20,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDirectory =
       await path_provider.getApplicationDocumentsDirectory();
-  await Hive.initFlutter(appDocumentDirectory.path);
-  Hive.registerAdapter(ShiftAdapter());
-  final storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getTemporaryDirectory(),
-  );
-  HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
-    storage: storage,
-  );
+  Hive
+    ..initFlutter(appDocumentDirectory.path)
+    ..registerAdapter(ShiftAdapter());
+
+  HydratedBlocOverrides.runZoned(() => runApp(const MyApp()),
+      createStorage: () async {
+    return HydratedStorage.build(
+      storageDirectory: kIsWeb
+          ? HydratedStorage.webStorageDirectory
+          : await getTemporaryDirectory(),
+    );
+  });
 }
 
 class MyApp extends StatefulWidget {
