@@ -12,7 +12,7 @@ class TimeUtil {
   /// return date in format: dd.mm.yyyy
   static String formatDate(DateTime? dateTime) {
     if (dateTime == null) {
-      return '__:__:__';
+      return '__-__-__';
     }
     return DateFormat('dd-MM-yyyy').format(dateTime);
   }

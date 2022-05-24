@@ -15,7 +15,8 @@ class Shift extends HiveObject {
   @HiveField(2, defaultValue: Duration(hours: 8))
   final Duration? duration;
 
-  Shift({required this.start, required this.end, required this.duration});
+  Shift({required this.start, required this.end, Duration? duration})
+      : duration = duration ?? const Duration(hours: 8);
 
   Shift copyWith({
     DateTime? start,
@@ -45,4 +46,9 @@ class Shift extends HiveObject {
 
   @override
   int get hashCode => start.hashCode ^ end.hashCode ^ duration.hashCode;
+
+  @override
+  String toString() {
+    return 'Shift{start: $start, end: $end, duration: $duration}';
+  }
 }

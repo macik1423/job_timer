@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
-import '../../model/shift.dart';
 import '../../util/constants.dart' as constants;
+import '../../util/shift_accumulator.dart';
 import 'chart.dart';
 
 class StatisticsScreen extends StatefulWidget {
@@ -83,7 +83,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   return shift.start?.month == numOfMonth &&
                       shift.start?.year == yearNow;
                 }).toList();
-                final sum = _sumShifts(shiftsInMonth);
+                final sum = ShiftAccumulator().sum(shiftsInMonth);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Summary(sum),
@@ -96,18 +96,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         ],
       ),
     );
-  }
-
-  double _sumShifts(List<Shift> shifts) {
-    return shifts.fold<double>(
-        0,
-        (p, s) =>
-            p +
-            s.end!
-                    .subtract(const Duration(hours: 8))
-                    .difference(s.start!)
-                    .inSeconds /
-                60);
   }
 }
 

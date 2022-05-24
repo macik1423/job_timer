@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:timer/model/shift.dart';
-import 'package:timer/util/duration_extension.dart';
 
 import '../util/constants.dart' as constants;
 import '../util/time_util.dart';
 
 class ShiftsList extends StatelessWidget {
   final List<Shift> shifts;
-  final int normalShift = 8;
   final Function(Shift shift) press;
   const ShiftsList({
     Key? key,
@@ -28,8 +26,9 @@ class ShiftsList extends StatelessWidget {
       rows: shifts.map((shift) {
         final start = shift.start;
         final end = shift.end;
+        final duration = shift.duration;
         final diff = end
-            ?.subtract(Duration(hours: normalShift))
+            ?.subtract(Duration(hours: duration!.inHours))
             .difference(start!)
             .inSeconds;
         return DataRow(
@@ -55,7 +54,7 @@ class ShiftsList extends StatelessWidget {
               ),
             ),
             DataCell(Text(
-              shift.duration!.toHoursMinutes() + " h",
+              '${shift.duration!.inHours} h',
             )),
           ],
         );

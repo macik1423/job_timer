@@ -9,6 +9,7 @@ import 'package:timer/cubit/shift/shift_cubit.dart';
 import 'package:timer/cubit/shift/shift_state.dart';
 import 'package:timer/model/shift.dart';
 import 'package:timer/screen/home/home.dart';
+import 'package:timer/util/constants.dart' as constants;
 import 'package:timer/widgets/shifts_list.dart';
 
 import '../helpers/hydrated_bloc.dart';
@@ -25,7 +26,7 @@ void main() {
       mockShiftCubit = MockShiftCubit();
     });
 
-    testWidgets('should find list of shifts', (tester) async {
+    testWidgets('home view', (tester) async {
       final yearNow = DateTime.now().year;
       final month = DateTime.now().month;
       when(() => mockNavigationCubit.state).thenReturn(
@@ -74,6 +75,18 @@ void main() {
       );
       final shiftList = find.byType(ShiftsList);
       expect(shiftList, findsOneWidget);
+
+      final slider = find.byType(Slider);
+      expect(slider, findsOneWidget);
+
+      final inButton = find.byKey(const Key(constants.inText));
+      expect(inButton, findsOneWidget);
+
+      final outButton = find.byKey(const Key(constants.outText));
+      expect(outButton, findsOneWidget);
+
+      final mainClock = find.byKey(const Key(constants.mainClockText));
+      expect(mainClock, findsOneWidget);
     });
   });
 }

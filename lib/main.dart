@@ -5,12 +5,15 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:provider/provider.dart';
 import 'package:timer/bloc/add_form/add_form_bloc.dart';
 import 'package:timer/cubit/navigation/navigation_cubit.dart';
 import 'package:timer/repository/shift_hive.dart';
 import 'package:timer/repository/shift_repository.dart';
 import 'package:timer/screen/root_screen.dart';
 import 'package:timer/shift_box.dart';
+import 'package:timer/util/duration_adapter.dart';
+import 'package:timer/widgets/duration_modifier.dart';
 
 import 'bloc/repo/repo_bloc.dart';
 import 'cubit/shift/shift_cubit.dart';
@@ -22,7 +25,8 @@ Future<void> main() async {
       await path_provider.getApplicationDocumentsDirectory();
   Hive
     ..initFlutter(appDocumentDirectory.path)
-    ..registerAdapter(ShiftAdapter());
+    ..registerAdapter(ShiftAdapter())
+    ..registerAdapter(DurationAdapter());
 
   HydratedBlocOverrides.runZoned(() => runApp(const MyApp()),
       createStorage: () async {
@@ -78,7 +82,11 @@ class _MyAppState extends State<MyApp> {
             create: (context) => AddFormBloc(),
           ),
         ],
-        child: const RootScreen(),
+        child: MultiProvider(providers: [
+          ChangeNotifierProvider<SliderChanged>(
+            create: (_) => SliderChanged(),
+          )
+        ], child: const RootScreen()),
       ),
     );
   }

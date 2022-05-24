@@ -73,6 +73,7 @@ class _ClockState extends State<Clock> {
                     return Center(
                       child: Text(
                         TimeUtil.formatDateTime(DateTime.now()),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     );
                   },
@@ -101,6 +102,7 @@ class _ClockState extends State<Clock> {
                     return Center(
                       child: Text(
                         TimeUtil.formatDate(DateTime.now()),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     );
                   },

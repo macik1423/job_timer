@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +7,7 @@ part 'shift_state.g.dart';
 
 enum ShiftStateStatus { initial, startTapped, endTapped }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ShiftState extends Equatable {
   final Shift shift;
   final bool enabledStart;

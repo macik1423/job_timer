@@ -27,3 +27,4 @@ const String monthsText = "Months";
 const String chartText = "Chart";
 const String summaryText = "Summary";
 const String durationText = "Duration";
+const String mainClockText = "Main Clock";

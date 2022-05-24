@@ -10,7 +10,6 @@ class ShiftCubit extends HydratedCubit<ShiftState> {
             shift: Shift(
               start: null,
               end: null,
-              duration: const Duration(hours: 8),
             ),
             enabledStart: true,
             enabledEnd: false,
@@ -24,7 +23,6 @@ class ShiftCubit extends HydratedCubit<ShiftState> {
         shift: Shift(
           start: start,
           end: null,
-          duration: const Duration(hours: 8),
         ),
         enabledStart: false,
         enabledEnd: true,
@@ -33,13 +31,12 @@ class ShiftCubit extends HydratedCubit<ShiftState> {
     );
   }
 
-  void updateEnd(DateTime end) {
+  void updateEnd(DateTime start, DateTime end) {
     emit(
       ShiftState(
         shift: Shift(
-          start: state.shift.start,
+          start: start,
           end: end,
-          duration: const Duration(hours: 8),
         ),
         enabledStart: false,
         enabledEnd: false,
@@ -54,7 +51,6 @@ class ShiftCubit extends HydratedCubit<ShiftState> {
         shift: Shift(
           start: null,
           end: null,
-          duration: const Duration(hours: 8),
         ),
         enabledStart: true,
         enabledEnd: false,
