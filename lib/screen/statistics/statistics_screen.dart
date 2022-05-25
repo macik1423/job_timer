@@ -86,7 +86,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 final sum = ShiftAccumulator().sum(shiftsInMonth);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Summary(sum),
+                  child: Summary(const Key(constants.summaryText), sum),
                 );
               } else {
                 return const Text("dupa");
@@ -100,7 +100,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 }
 
 abstract class Summary extends StatelessWidget {
-  factory Summary(double value) {
+  factory Summary(Key? key, double value) {
     if (value < 0) {
       return NegativeSummary(sum: value);
     } else {

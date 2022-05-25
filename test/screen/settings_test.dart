@@ -86,7 +86,7 @@ void main() {
     });
 
     testWidgets(
-        'when list of shifts scroll down then floating action bar should change opacity',
+        'when list of shifts scroll down then floating action bar should change opacity to invisible = 0',
         (tester) async {
       final yearNow = DateTime.now().year;
       final month = DateTime.now().month;
@@ -140,16 +140,91 @@ void main() {
       await tester.ensureVisible(shiftList);
       await tester.pumpAndSettle();
 
-      await tester.drag(shiftList, const Offset(0.0, -200.0));
+      await scrollDown(tester, shiftList);
+    });
+
+    testWidgets(
+        'when list of shifts scroll up then floating action bar should change opacity from 0 to visible = 1',
+        (tester) async {
+      final yearNow = DateTime.now().year;
+      final month = DateTime.now().month;
+      when(() => mockNavigationCubit.state).thenReturn(
+          const NavigationState(navbarItem: NavbarItem.settings, index: 1));
+      when(() => mockRepoBloc.state).thenReturn(RepoState(
+        shifts: List<Shift>.generate(
+          30,
+          (i) => Shift(
+            start: DateTime(yearNow, month, 1, 1, i, 0),
+            end: DateTime(yearNow, month, 1, 9, i, 0),
+            duration: const Duration(hours: 8),
+          ),
+        ),
+        status: RepoStateStatus.success,
+      ));
+      when(() => mockShiftCubit.state).thenReturn(ShiftState(
+        shift: Shift(
+          start: null,
+          end: null,
+          duration: const Duration(hours: 8),
+        ),
+        enabledStart: true,
+        enabledEnd: false,
+        status: ShiftStateStatus.initial,
+      ));
+
+      await mockHydratedStorage(() async {
+        await tester.pumpWidget(
+          BlocProvider<ShiftCubit>.value(
+            value: mockShiftCubit,
+            child: BlocProvider<RepoBloc>.value(
+              value: mockRepoBloc,
+              child: BlocProvider<NavigationCubit>.value(
+                value: mockNavigationCubit,
+                child: BlocProvider<AddFormBloc>.value(
+                  value: mockAddFormBloc,
+                  child: const MaterialApp(
+                    home: Scaffold(
+                      body: SettingsScreen(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+
+      final shiftList = find.byType(ListView);
+      await tester.ensureVisible(shiftList);
       await tester.pumpAndSettle();
 
-      final finder = find.byType(AnimatedOpacity);
-      expect(finder, findsOneWidget);
+      await scrollDown(tester, shiftList);
 
-      final AnimatedOpacity button = tester.firstWidget(finder);
-      expect(button.opacity, equals(0.0));
+      await scrollUp(tester, shiftList);
     });
   });
+}
+
+Future<void> scrollDown(WidgetTester tester, Finder shiftList) async {
+  await tester.drag(shiftList, const Offset(0.0, -25.0));
+  await tester.pumpAndSettle();
+
+  final finder = find.byType(AnimatedOpacity);
+  expect(finder, findsOneWidget);
+
+  final AnimatedOpacity button = tester.firstWidget(finder);
+  expect(button.opacity, equals(0.0));
+}
+
+Future<void> scrollUp(WidgetTester tester, Finder shiftList) async {
+  final finder = find.byType(AnimatedOpacity);
+  expect(finder, findsOneWidget);
+
+  await tester.drag(shiftList, const Offset(0.0, 30.0));
+  await tester.pumpAndSettle();
+
+  final AnimatedOpacity button = tester.firstWidget(finder);
+  expect(button.opacity, equals(1.0));
 }
 
 Type typeOf<T>() => T;

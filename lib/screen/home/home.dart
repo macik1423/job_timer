@@ -42,47 +42,48 @@ class _HomeState extends State<Home> {
                     key: const Key(constants.mainClockText),
                     repoState: repoState,
                   ),
-                  // const DurationModifier(),
                   ShiftCard(
-                      key: const Key(constants.inText),
-                      color: state.enabledStart
-                          ? Colors.green[300]!
-                          : Colors.grey[400]!,
-                      onTap: () {
-                        final timeNow = DateTime.now();
-                        context.read<ShiftCubit>().updateStart(timeNow);
-                      },
-                      tappedTime: TimeUtil.formatDateTime(state.shift.start),
-                      enabled: state.enabledStart,
-                      title: constants.inText,
-                      subtitle: TimeUtil.formatDate(state.shift.start)),
+                    key: const Key(constants.inText),
+                    color: state.enabledStart
+                        ? Colors.green[300]!
+                        : Colors.grey[400]!,
+                    onTap: () {
+                      final timeNow = DateTime.now();
+                      context.read<ShiftCubit>().updateStart(timeNow);
+                    },
+                    tappedTime: TimeUtil.formatDateTime(state.shift.start),
+                    enabled: state.enabledStart,
+                    title: constants.inText,
+                    subtitle: TimeUtil.formatDate(state.shift.start),
+                  ),
                   ShiftCard(
-                      key: const Key(constants.outText),
-                      color: state.enabledEnd
-                          ? Colors.green[300]!
-                          : Colors.grey[400]!,
-                      title: constants.outText,
-                      onTap: () {
-                        final timeNow = DateTime.now();
-                        final timeIn = state.shift.start;
-                        final duration = context.read<SliderChanged>().value;
-                        context.read<RepoBloc>().add(
-                              RepoShiftSaved(
-                                Shift(
-                                  start: timeIn,
-                                  end: timeNow,
-                                  duration: Duration(
-                                    hours: duration.round(),
-                                  ),
+                    key: const Key(constants.outText),
+                    color: state.enabledEnd
+                        ? Colors.green[300]!
+                        : Colors.grey[400]!,
+                    title: constants.outText,
+                    onTap: () {
+                      final timeNow = DateTime.now();
+                      final timeIn = state.shift.start;
+                      final duration = context.read<SliderChanged>().value;
+                      context.read<RepoBloc>().add(
+                            RepoShiftSaved(
+                              Shift(
+                                start: timeIn,
+                                end: timeNow,
+                                duration: Duration(
+                                  hours: duration.round(),
                                 ),
                               ),
-                            );
-                        context.read<SliderChanged>().resetToDefault();
-                        context.read<ShiftCubit>().updateEnd(timeIn!, timeNow);
-                      },
-                      tappedTime: TimeUtil.formatDateTime(state.shift.end),
-                      enabled: state.enabledEnd,
-                      subtitle: TimeUtil.formatDate(state.shift.end)),
+                            ),
+                          );
+                      context.read<SliderChanged>().resetToDefault();
+                      context.read<ShiftCubit>().updateEnd(timeIn!, timeNow);
+                    },
+                    tappedTime: TimeUtil.formatDateTime(state.shift.end),
+                    enabled: state.enabledEnd,
+                    subtitle: TimeUtil.formatDate(state.shift.end),
+                  ),
                   DurationModifier(
                     absorbing: !(state.enabledEnd || state.enabledStart),
                   ),
