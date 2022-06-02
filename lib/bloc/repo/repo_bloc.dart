@@ -5,7 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:timer/repository/shift_repository.dart';
 
 import '../../model/shift.dart';
-import '../../util/exception.dart';
 
 part 'repo_event.dart';
 part 'repo_state.dart';
@@ -45,11 +44,16 @@ class RepoBloc extends Bloc<RepoEvent, RepoState> {
   Future<void> _saveShift(RepoShiftSaved event, Emitter<RepoState> emit) async {
     try {
       await _shiftRepository.saveShift(event.shift);
-    } on ShiftAlreadyExistsException catch (error) {
+      emit(
+        state.copyWith(
+          status: RepoStateStatus.success,
+        ),
+      );
+    } on Exception catch (error) {
       emit(
         state.copyWith(
           status: RepoStateStatus.failure,
-          message: error.message,
+          message: error.toString(),
         ),
       );
     }

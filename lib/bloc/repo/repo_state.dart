@@ -27,4 +27,9 @@ class RepoState extends Equatable {
 
   @override
   List<Object?> get props => [status, shifts, message];
+
+  @override
+  String toString() {
+    return 'RepoState{status: $status, shifts: $shifts, message: $message}';
+  }
 }

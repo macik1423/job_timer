@@ -4,8 +4,10 @@ import 'package:timer/util/time_of_day_converter_extension.dart';
 
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';
+import '../../cubit/duration/duration_cubit.dart';
 import '../../model/add_form/shift_input.dart';
 import '../../model/shift.dart';
+import '../../widgets/duration_modifier.dart';
 
 class AddForm extends StatefulWidget {
   final int month;
@@ -22,7 +24,7 @@ class _AddFormState extends State<AddForm> {
       builder: (context, state) {
         return Dialog(
           child: SizedBox(
-            height: 350,
+            height: 500,
             width: 400,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -123,6 +125,10 @@ class _AddFormState extends State<AddForm> {
                               ),
                             );
                       },
+                    ),
+                    DurationModifier(
+                      absorbing: false,
+                      defaultValue: context.read<DurationCubit>().defaultValue,
                     ),
                     ElevatedButton(
                       onPressed: state.shift.valid && state.date.valid

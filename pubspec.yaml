@@ -50,6 +50,7 @@ dependencies:
   fl_chart: ^0.50.1
   json_serializable: ^6.2.0
   provider: ^6.0.3
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:

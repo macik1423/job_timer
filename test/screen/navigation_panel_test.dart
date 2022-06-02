@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:timer/bloc/add_form/add_form_bloc.dart';
 import 'package:timer/bloc/repo/repo_bloc.dart';
+import 'package:timer/cubit/duration/duration_cubit.dart';
 import 'package:timer/cubit/navigation/navigation_cubit.dart';
 import 'package:timer/cubit/navigation/navigation_item.dart';
 import 'package:timer/cubit/shift/shift_cubit.dart';
@@ -26,17 +27,23 @@ class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
 class MockAddFormBloc extends MockCubit<AddFormState> implements AddFormBloc {}
 
+class MockDurationCubit extends MockCubit<double> implements DurationCubit {}
+
 void main() {
   group('test bottom navigation icons', () {
     late MockNavigationCubit mockNavigationCubit;
     late MockRepoBloc mockRepoBloc;
     late MockShiftCubit mockShiftCubit;
     late MockAddFormBloc mockAddFormBloc;
+    late MockDurationCubit mockDurationCubit;
     setUp(() {
       mockNavigationCubit = MockNavigationCubit();
       mockRepoBloc = MockRepoBloc();
       mockShiftCubit = MockShiftCubit();
       mockAddFormBloc = MockAddFormBloc();
+      mockDurationCubit = MockDurationCubit();
+      when(() => mockDurationCubit.state).thenReturn(8.0);
+      when(() => mockDurationCubit.defaultValue).thenReturn(8.0);
     });
 
     testWidgets('navigate to home', (tester) async {
@@ -62,9 +69,12 @@ void main() {
               value: mockRepoBloc,
               child: BlocProvider<NavigationCubit>.value(
                 value: mockNavigationCubit,
-                child: const MaterialApp(
-                  home: Scaffold(
-                    body: RootScreen(),
+                child: BlocProvider<DurationCubit>.value(
+                  value: mockDurationCubit,
+                  child: const MaterialApp(
+                    home: Scaffold(
+                      body: RootScreen(),
+                    ),
                   ),
                 ),
               ),
@@ -108,9 +118,12 @@ void main() {
                 value: mockNavigationCubit,
                 child: BlocProvider<AddFormBloc>.value(
                   value: mockAddFormBloc,
-                  child: const MaterialApp(
-                    home: Scaffold(
-                      body: RootScreen(),
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
+                    child: const MaterialApp(
+                      home: Scaffold(
+                        body: RootScreen(),
+                      ),
                     ),
                   ),
                 ),

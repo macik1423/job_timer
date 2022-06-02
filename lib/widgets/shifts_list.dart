@@ -53,9 +53,9 @@ class ShiftsList extends StatelessWidget {
                 ),
               ),
             ),
-            DataCell(Text(
-              '${shift.duration!.inHours} h',
-            )),
+            DataCell(
+              Center(child: Text('${shift.duration!.inHours} h')),
+            ),
           ],
         );
       }).toList(),

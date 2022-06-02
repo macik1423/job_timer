@@ -6,8 +6,11 @@ import 'package:timer/cubit/shift/shift_cubit.dart';
 import 'package:timer/cubit/shift/shift_state.dart';
 import 'package:timer/model/shift.dart';
 import 'package:timer/repository/shift_api.dart';
+import 'package:timer/repository/shift_hive.dart';
 import 'package:timer/repository/shift_repository.dart';
 import 'package:timer/shift_box.dart';
+import 'package:timer/util/exception.dart';
+import 'package:timer/util/time_util.dart';
 
 class MockShiftCubit extends MockCubit<ShiftState> implements ShiftCubit {}
 
@@ -26,6 +29,7 @@ void main() {
     )
   ];
   group('repository', () {
+    late ShiftHiveApi shiftHiveApi;
     late ShiftRepository shiftRepository;
     late ShiftApi mockShiftApi;
     late ShiftBox mockShiftBox;
@@ -38,6 +42,8 @@ void main() {
       when(mockShiftBox.openBox)
           .thenAnswer((_) async => await Future.value(mockBox));
       when(() => mockBox.values).thenReturn(shiftList);
+
+      shiftHiveApi = ShiftHiveApi(mockShiftBox);
     });
 
     test('should retrieve all shifts when getAll is called', () async {
@@ -65,6 +71,25 @@ void main() {
 
       verify(() => mockShiftApi.saveShift(newShift));
       verifyNoMoreInteractions(mockShiftApi);
+    });
+
+    test('should throw exception if shift already exists', () async {
+      final newShift = Shift(
+        start: DateTime.now(),
+        end: DateTime.now(),
+        duration: const Duration(hours: 8),
+      );
+
+      await expectLater(
+        () async => await shiftHiveApi.saveShift(newShift),
+        throwsA(
+          isA<ShiftAlreadyExistsException>().having(
+            (error) => error.message,
+            'message',
+            'Shift ${TimeUtil.formatDate(newShift.start)} already exists',
+          ),
+        ),
+      );
     });
   });
 }

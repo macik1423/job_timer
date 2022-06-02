@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:provider/provider.dart';
 import 'package:timer/bloc/repo/repo_bloc.dart';
+import 'package:timer/cubit/duration/duration_cubit.dart';
 import 'package:timer/cubit/navigation/navigation_cubit.dart';
 import 'package:timer/cubit/navigation/navigation_item.dart';
 import 'package:timer/cubit/shift/shift_cubit.dart';
@@ -25,24 +25,27 @@ class MockRepoBloc extends MockCubit<RepoState> implements RepoBloc {}
 
 class MockShiftCubit extends MockCubit<ShiftState> implements ShiftCubit {}
 
-class MockSliderChanged extends Mock implements SliderChanged {}
+class MockDurationCubit extends MockCubit<double> implements DurationCubit {}
 
 void main() {
   group('screen testing', () {
     late MockNavigationCubit mockNavigationCubit;
     late MockRepoBloc mockRepoBloc;
     late MockShiftCubit mockShiftCubit;
-    late MockSliderChanged mockSliderChanged;
+    late MockDurationCubit mockDurationCubit;
     setUp(() {
       mockNavigationCubit = MockNavigationCubit();
       mockRepoBloc = MockRepoBloc();
       mockShiftCubit = MockShiftCubit();
-      mockSliderChanged = MockSliderChanged();
+      mockDurationCubit = MockDurationCubit();
+      when(() => mockDurationCubit.state).thenReturn(8.0);
+      when(() => mockDurationCubit.defaultValue).thenReturn(8.0);
     });
 
     testWidgets('home view', (tester) async {
       final yearNow = DateTime.now().year;
       final month = DateTime.now().month;
+
       when(() => mockNavigationCubit.state).thenReturn(
           const NavigationState(navbarItem: NavbarItem.home, index: 0));
       when(() => mockRepoBloc.state).thenReturn(RepoState(
@@ -76,9 +79,12 @@ void main() {
                 value: mockRepoBloc,
                 child: BlocProvider<NavigationCubit>.value(
                   value: mockNavigationCubit,
-                  child: const MaterialApp(
-                    home: Scaffold(
-                      body: Home(),
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
+                    child: const MaterialApp(
+                      home: Scaffold(
+                        body: Home(),
+                      ),
                     ),
                   ),
                 ),
@@ -139,9 +145,12 @@ void main() {
                 value: mockRepoBloc,
                 child: BlocProvider<NavigationCubit>.value(
                   value: mockNavigationCubit,
-                  child: const MaterialApp(
-                    home: Scaffold(
-                      body: Home(),
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
+                    child: const MaterialApp(
+                      home: Scaffold(
+                        body: Home(),
+                      ),
                     ),
                   ),
                 ),
@@ -195,7 +204,7 @@ void main() {
         enabledEnd: true,
         status: ShiftStateStatus.startTapped,
       ));
-      when(() => mockSliderChanged.value).thenReturn(8.0);
+      when(() => mockDurationCubit.state).thenReturn(8.0);
 
       await mockHydratedStorage(
         () async {
@@ -206,8 +215,8 @@ void main() {
                 value: mockRepoBloc,
                 child: BlocProvider<NavigationCubit>.value(
                   value: mockNavigationCubit,
-                  child: ChangeNotifierProvider<SliderChanged>.value(
-                    value: mockSliderChanged,
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
                     child: const MaterialApp(
                       home: Scaffold(
                         body: Home(),

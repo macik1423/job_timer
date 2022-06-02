@@ -6,10 +6,12 @@ import 'package:timer/screen/settings/add_form.dart';
 
 import '../../bloc/add_form/add_form_bloc.dart';
 import '../../bloc/repo/repo_bloc.dart';
+import '../../cubit/duration/duration_cubit.dart';
 import '../../model/shift.dart';
 import '../../util/constants.dart' as constants;
 import '../../util/time_util.dart';
 import '../../widgets/shifts_list.dart';
+import 'default_value_option.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -56,6 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final numOfMonth = DateFormat("MMMM").parse(selectedValue).month;
     AddFormBloc addFormBloc = BlocProvider.of<AddFormBloc>(context);
     RepoBloc repoBloc = BlocProvider.of<RepoBloc>(context);
+    final durationCubit = BlocProvider.of<DurationCubit>(context);
     return Scaffold(
       body: Center(
         child: Column(
@@ -159,33 +162,65 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ],
         ),
       ),
-      floatingActionButton: AnimatedOpacity(
-        opacity: _isVisible ? 1.0 : 0.0,
-        duration: const Duration(milliseconds: 500),
-        child: FloatingActionButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return MultiBlocProvider(
-                  providers: [
-                    BlocProvider<AddFormBloc>.value(
-                      value: addFormBloc,
-                    ),
-                    BlocProvider<RepoBloc>.value(
-                      value: repoBloc,
-                    )
-                  ],
-                  child: AddForm(
-                    month: numOfMonth,
-                  ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          AnimatedOpacity(
+            key: const Key(constants.wrenchOpacityText),
+            opacity: _isVisible ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 500),
+            child: FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BlocProvider.value(
+                      value: durationCubit,
+                      child: DefaultValueOption(durationCubit: durationCubit),
+                    );
+                  },
                 );
               },
-            );
-          },
-          backgroundColor: Colors.green,
-          child: const Icon(Icons.add),
-        ),
+              backgroundColor: Colors.green[600],
+              child: const Icon(Icons.build_sharp),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          AnimatedOpacity(
+            key: const Key(constants.addOpacityText),
+            opacity: _isVisible ? 1.0 : 0.0,
+            duration: const Duration(milliseconds: 500),
+            child: FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return MultiBlocProvider(
+                      providers: [
+                        BlocProvider<AddFormBloc>.value(
+                          value: addFormBloc,
+                        ),
+                        BlocProvider<RepoBloc>.value(
+                          value: repoBloc,
+                        ),
+                        BlocProvider<DurationCubit>.value(
+                          value: durationCubit,
+                        )
+                      ],
+                      child: AddForm(
+                        month: numOfMonth,
+                      ),
+                    );
+                  },
+                );
+              },
+              backgroundColor: Colors.green[600],
+              child: const Icon(Icons.add),
+            ),
+          ),
+        ],
       ),
     );
   }

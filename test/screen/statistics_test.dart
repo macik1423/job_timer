@@ -113,5 +113,49 @@ void main() {
       final plus = find.byIcon(Icons.remove);
       expect(plus, findsOneWidget);
     });
+
+    testWidgets('when tap the dropdown button then should find the month',
+        (tester) async {
+      final yearNow = DateTime.now().year;
+      final month = DateTime.now().month;
+      when(() => mockNavigationCubit.state).thenReturn(
+          const NavigationState(navbarItem: NavbarItem.settings, index: 1));
+      when(() => mockRepoBloc.state).thenReturn(RepoState(
+        shifts: List<Shift>.generate(
+          30,
+          (i) => Shift(
+            start: DateTime(yearNow, month, 1, 1, i, 0),
+            end: DateTime(yearNow, month, 1, 9, i, 0),
+            duration: const Duration(hours: 8),
+          ),
+        ),
+        status: RepoStateStatus.success,
+      ));
+
+      await mockHydratedStorage(() async {
+        await tester.pumpWidget(
+          BlocProvider<RepoBloc>.value(
+            value: mockRepoBloc,
+            child: BlocProvider<NavigationCubit>.value(
+              value: mockNavigationCubit,
+              child: const MaterialApp(
+                home: Scaffold(
+                  body: StatisticsScreen(),
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+
+      final dropDownButton = find.byType(typeOf<DropdownButton<String>>());
+      await tester.ensureVisible(dropDownButton);
+      expect(dropDownButton, findsOneWidget);
+
+      final months = find.byType(typeOf<DropdownMenuItem<String>>());
+      expect(months, findsNWidgets(12));
+    });
   });
 }
+
+Type typeOf<T>() => T;

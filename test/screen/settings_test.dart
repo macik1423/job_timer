@@ -1,18 +1,33 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:timer/bloc/add_form/add_form_bloc.dart';
 import 'package:timer/bloc/repo/repo_bloc.dart';
+import 'package:timer/cubit/duration/duration_cubit.dart';
 import 'package:timer/cubit/navigation/navigation_cubit.dart';
 import 'package:timer/cubit/navigation/navigation_item.dart';
 import 'package:timer/cubit/shift/shift_cubit.dart';
 import 'package:timer/cubit/shift/shift_state.dart';
 import 'package:timer/model/shift.dart';
 import 'package:timer/screen/settings/settings_screen.dart';
+import 'package:timer/util/constants.dart' as constants;
 
 import '../helpers/hydrated_bloc.dart';
-import 'navigation_panel_test.dart';
+
+class MockNavigationCubit extends MockCubit<NavigationState>
+    implements NavigationCubit {}
+
+class MockRepoBloc extends MockCubit<RepoState> implements RepoBloc {}
+
+class MockShiftCubit extends MockCubit<ShiftState> implements ShiftCubit {}
+
+class MockNavigatorObserver extends Mock implements NavigatorObserver {}
+
+class MockAddFormBloc extends MockCubit<AddFormState> implements AddFormBloc {}
+
+class MockDurationCubit extends MockCubit<double> implements DurationCubit {}
 
 void main() {
   group('screen testing', () {
@@ -20,11 +35,80 @@ void main() {
     late MockRepoBloc mockRepoBloc;
     late MockShiftCubit mockShiftCubit;
     late MockAddFormBloc mockAddFormBloc;
+    late MockDurationCubit mockDurationCubit;
     setUp(() {
       mockNavigationCubit = MockNavigationCubit();
       mockRepoBloc = MockRepoBloc();
       mockShiftCubit = MockShiftCubit();
       mockAddFormBloc = MockAddFormBloc();
+      mockDurationCubit = MockDurationCubit();
+      when(() => mockDurationCubit.state).thenReturn(8.0);
+      when(() => mockDurationCubit.defaultValue).thenReturn(8.0);
+    });
+
+    testWidgets('elements exist', (tester) async {
+      final yearNow = DateTime.now().year;
+      final month = DateTime.now().month;
+      when(() => mockNavigationCubit.state).thenReturn(
+          const NavigationState(navbarItem: NavbarItem.settings, index: 1));
+      when(() => mockRepoBloc.state).thenReturn(RepoState(
+        shifts: List<Shift>.generate(
+          30,
+          (i) => Shift(
+            start: DateTime(yearNow, month, 1, 1, i, 0),
+            end: DateTime(yearNow, month, 1, 9, i, 0),
+            duration: const Duration(hours: 8),
+          ),
+        ),
+        status: RepoStateStatus.success,
+      ));
+      when(() => mockShiftCubit.state).thenReturn(ShiftState(
+        shift: Shift(
+          start: null,
+          end: null,
+          duration: const Duration(hours: 8),
+        ),
+        enabledStart: true,
+        enabledEnd: false,
+        status: ShiftStateStatus.initial,
+      ));
+
+      await mockHydratedStorage(() async {
+        await tester.pumpWidget(
+          BlocProvider<ShiftCubit>.value(
+            value: mockShiftCubit,
+            child: BlocProvider<RepoBloc>.value(
+              value: mockRepoBloc,
+              child: BlocProvider<NavigationCubit>.value(
+                value: mockNavigationCubit,
+                child: BlocProvider<AddFormBloc>.value(
+                  value: mockAddFormBloc,
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
+                    child: const MaterialApp(
+                      home: Scaffold(
+                        body: SettingsScreen(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+
+      final wrench = find.byIcon(Icons.build_sharp);
+      expect(wrench, findsOneWidget);
+
+      final add = find.byIcon(Icons.add);
+      expect(add, findsOneWidget);
+
+      final list = find.byType(ListView);
+      expect(list, findsOneWidget);
+
+      final dropdownMonths = find.byKey(const Key(constants.monthsText));
+      expect(dropdownMonths, findsOneWidget);
     });
 
     testWidgets('when tap the dropdown button then should find the month',
@@ -65,9 +149,12 @@ void main() {
                 value: mockNavigationCubit,
                 child: BlocProvider<AddFormBloc>.value(
                   value: mockAddFormBloc,
-                  child: const MaterialApp(
-                    home: Scaffold(
-                      body: SettingsScreen(),
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
+                    child: const MaterialApp(
+                      home: Scaffold(
+                        body: SettingsScreen(),
+                      ),
                     ),
                   ),
                 ),
@@ -124,9 +211,12 @@ void main() {
                 value: mockNavigationCubit,
                 child: BlocProvider<AddFormBloc>.value(
                   value: mockAddFormBloc,
-                  child: const MaterialApp(
-                    home: Scaffold(
-                      body: SettingsScreen(),
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
+                    child: const MaterialApp(
+                      home: Scaffold(
+                        body: SettingsScreen(),
+                      ),
                     ),
                   ),
                 ),
@@ -182,9 +272,12 @@ void main() {
                 value: mockNavigationCubit,
                 child: BlocProvider<AddFormBloc>.value(
                   value: mockAddFormBloc,
-                  child: const MaterialApp(
-                    home: Scaffold(
-                      body: SettingsScreen(),
+                  child: BlocProvider<DurationCubit>.value(
+                    value: mockDurationCubit,
+                    child: const MaterialApp(
+                      home: Scaffold(
+                        body: SettingsScreen(),
+                      ),
                     ),
                   ),
                 ),
@@ -209,22 +302,34 @@ Future<void> scrollDown(WidgetTester tester, Finder shiftList) async {
   await tester.drag(shiftList, const Offset(0.0, -25.0));
   await tester.pumpAndSettle();
 
-  final finder = find.byType(AnimatedOpacity);
-  expect(finder, findsOneWidget);
+  final wrench = find.byKey(const Key(constants.wrenchOpacityText));
+  expect(wrench, findsOneWidget);
 
-  final AnimatedOpacity button = tester.firstWidget(finder);
-  expect(button.opacity, equals(0.0));
+  final add = find.byKey(const Key(constants.addOpacityText));
+  expect(add, findsOneWidget);
+
+  final AnimatedOpacity wrenchButton = tester.firstWidget(wrench);
+  expect(wrenchButton.opacity, equals(0.0));
+
+  final AnimatedOpacity addButton = tester.firstWidget(add);
+  expect(addButton.opacity, equals(0.0));
 }
 
 Future<void> scrollUp(WidgetTester tester, Finder shiftList) async {
-  final finder = find.byType(AnimatedOpacity);
-  expect(finder, findsOneWidget);
+  final wrench = find.byKey(const Key(constants.wrenchOpacityText));
+  expect(wrench, findsOneWidget);
+
+  final add = find.byKey(const Key(constants.addOpacityText));
+  expect(add, findsOneWidget);
 
   await tester.drag(shiftList, const Offset(0.0, 30.0));
   await tester.pumpAndSettle();
 
-  final AnimatedOpacity button = tester.firstWidget(finder);
-  expect(button.opacity, equals(1.0));
+  final AnimatedOpacity wrenchButton = tester.firstWidget(wrench);
+  expect(wrenchButton.opacity, equals(1.0));
+
+  final AnimatedOpacity addButton = tester.firstWidget(add);
+  expect(addButton.opacity, equals(1.0));
 }
 
 Type typeOf<T>() => T;

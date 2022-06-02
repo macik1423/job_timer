@@ -1,61 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../cubit/duration/duration_cubit.dart';
+
 class DurationModifier extends StatefulWidget {
-  const DurationModifier({Key? key, required this.absorbing}) : super(key: key);
+  const DurationModifier(
+      {Key? key, required this.absorbing, required this.defaultValue})
+      : super(key: key);
   final bool absorbing;
+  final double defaultValue;
 
   @override
   State<DurationModifier> createState() => _DurationModifierState();
 }
 
 class _DurationModifierState extends State<DurationModifier> {
-  double _currentSliderValue = 8;
+  late double _currentSliderValue = widget.defaultValue;
   @override
   Widget build(BuildContext context) {
-    final durationText = 'Duration: ${_currentSliderValue.round()} h';
+    final defaultText =
+        _currentSliderValue == context.read<DurationCubit>().defaultValue
+            ? '(default) '
+            : '';
     final absorbing = widget.absorbing;
-    return Column(
-      children: <Widget>[
-        AbsorbPointer(
-          absorbing: absorbing,
-          child: Slider(
-            activeColor: absorbing ? Colors.grey[400] : Colors.blue[500],
-            inactiveColor: absorbing ? Colors.grey[400] : Colors.blue[100],
-            value: _currentSliderValue,
-            max: 12,
-            min: 6,
-            divisions: 6,
-            label: _currentSliderValue.round().toString(),
-            onChanged: (double value) {
-              setState(
-                () {
-                  _currentSliderValue = value;
-                  context.read<SliderChanged>().change(value);
-                },
-              );
-            },
+    return Padding(
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Duration', style: TextStyle(fontSize: 20.0)),
+                Row(
+                  children: [
+                    Text(defaultText,
+                        style:
+                            const TextStyle(fontSize: 15.0, color: Colors.grey),
+                        textAlign: TextAlign.justify),
+                    Text('${_currentSliderValue.round()} h',
+                        style: const TextStyle(fontSize: 20.0))
+                  ],
+                )
+              ],
+            ),
           ),
-        ),
-        Text(
-          _currentSliderValue == 8 ? durationText + ' (default)' : durationText,
-          style: const TextStyle(fontSize: 20),
-        ),
-      ],
+          AbsorbPointer(
+            absorbing: absorbing,
+            child: Slider(
+              activeColor: absorbing ? Colors.grey[400] : Colors.blue[500],
+              inactiveColor: absorbing ? Colors.grey[400] : Colors.blue[100],
+              value: _currentSliderValue,
+              max: 12,
+              min: 6,
+              divisions: 6,
+              label: _currentSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(
+                  () {
+                    _currentSliderValue = value;
+                  },
+                );
+              },
+              onChangeEnd: (double value) {
+                context.read<DurationCubit>().changeValue(value);
+              },
+            ),
+          ),
+          // Text(
+          //   _currentSliderValue == context.read<DurationCubit>().defaultValue
+          //       ? durationText + ' (default)'
+          //       : durationText,
+          //   style: const TextStyle(fontSize: 20),
+          // ),
+        ],
+      ),
     );
-  }
-}
-
-class SliderChanged extends ChangeNotifier {
-  double value = 8.0;
-
-  void change(double newValue) {
-    value = newValue;
-    notifyListeners();
-  }
-
-  void resetToDefault() {
-    value = 8.0;
-    notifyListeners();
   }
 }

@@ -28,3 +28,5 @@ const String chartText = "Chart";
 const String summaryText = "Summary";
 const String durationText = "Duration";
 const String mainClockText = "Main Clock";
+const String wrenchOpacityText = "Wrench Opacity";
+const String addOpacityText = "Add Opacity";

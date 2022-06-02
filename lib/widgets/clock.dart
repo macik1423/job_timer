@@ -53,67 +53,32 @@ class _ClockState extends State<Clock> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(top: 60, bottom: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              color: const Color.fromRGBO(225, 180, 147, 50),
-              child: ListTile(
-                title: const Icon(
-                  Icons.access_time_outlined,
-                  color: Colors.white,
-                  size: 24.0,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          StreamBuilder(
+            stream: Stream.periodic(const Duration(seconds: 1)),
+            builder: (context, snapshot) {
+              return Center(
+                child: Text(
+                  TimeUtil.formatDateTime(DateTime.now()),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 45),
                 ),
-                subtitle: StreamBuilder(
-                  stream: Stream.periodic(const Duration(seconds: 1)),
-                  builder: (context, snapshot) {
-                    return Center(
-                      child: Text(
-                        TimeUtil.formatDateTime(DateTime.now()),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-            ),
+              );
+            },
           ),
-          Expanded(
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              color: const Color.fromRGBO(225, 180, 147, 50),
-              child: ListTile(
-                title: const Icon(
-                  Icons.date_range,
-                  color: Colors.white,
-                  size: 24.0,
+          StreamBuilder(
+            stream: Stream.periodic(const Duration(seconds: 1)),
+            builder: (context, snapshot) {
+              return Center(
+                child: Text(
+                  TimeUtil.formatDate(DateTime.now()),
+                  style: const TextStyle(fontSize: 25),
                 ),
-                subtitle: StreamBuilder(
-                  stream: Stream.periodic(const Duration(seconds: 1)),
-                  builder: (context, snapshot) {
-                    return Center(
-                      child: Text(
-                        TimeUtil.formatDate(DateTime.now()),
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),
