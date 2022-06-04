@@ -94,9 +94,13 @@ class _HomeState extends State<Home> {
                         enabled: state.enabledEnd,
                         subtitle: TimeUtil.formatDate(state.shift.end),
                       ),
-                      DurationModifier(
-                        absorbing: !(state.enabledEnd || state.enabledStart),
-                        defaultValue: value,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: DurationModifier(
+                          absorbing: !(state.enabledEnd || state.enabledStart),
+                          defaultValue:
+                              context.read<DurationCubit>().defaultValue,
+                        ),
                       ),
                       const FirstShiftsList(),
                     ],

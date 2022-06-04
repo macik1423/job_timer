@@ -1,4 +1,3 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,20 +13,8 @@ import 'package:timer/model/shift.dart';
 import 'package:timer/screen/settings/settings_screen.dart';
 import 'package:timer/util/constants.dart' as constants;
 
-import '../helpers/hydrated_bloc.dart';
-
-class MockNavigationCubit extends MockCubit<NavigationState>
-    implements NavigationCubit {}
-
-class MockRepoBloc extends MockCubit<RepoState> implements RepoBloc {}
-
-class MockShiftCubit extends MockCubit<ShiftState> implements ShiftCubit {}
-
-class MockNavigatorObserver extends Mock implements NavigatorObserver {}
-
-class MockAddFormBloc extends MockCubit<AddFormState> implements AddFormBloc {}
-
-class MockDurationCubit extends MockCubit<double> implements DurationCubit {}
+import '../../helpers/hydrated_bloc.dart';
+import '../../helpers/mocking_classes.dart';
 
 void main() {
   group('screen testing', () {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timer/widgets/snackbars.dart';
 
 import '../../cubit/duration/duration_cubit.dart';
 import '../../widgets/duration_modifier.dart';
@@ -6,17 +8,15 @@ import '../../widgets/duration_modifier.dart';
 class DefaultValueOption extends StatelessWidget {
   const DefaultValueOption({
     Key? key,
-    required this.durationCubit,
   }) : super(key: key);
-
-  final DurationCubit durationCubit;
 
   @override
   Widget build(BuildContext context) {
+    final durationCubit = context.read<DurationCubit>();
     return Dialog(
       child: SizedBox(
-        width: 400,
-        height: 200,
+        width: 450,
+        height: 250,
         child: Form(
           child: Card(
             shape: RoundedRectangleBorder(
@@ -47,6 +47,11 @@ class DefaultValueOption extends StatelessWidget {
                       final value = durationCubit.state;
                       durationCubit.changeDefaultValue(value);
                       Navigator.pop(context);
+                      final snackBar = PositiveSnackBar(
+                        content: Text('Saved new default duration: $value'),
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     },
                     child: const Text("Save")),
               ],

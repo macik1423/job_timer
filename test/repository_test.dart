@@ -1,9 +1,6 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:timer/cubit/shift/shift_cubit.dart';
-import 'package:timer/cubit/shift/shift_state.dart';
 import 'package:timer/model/shift.dart';
 import 'package:timer/repository/shift_api.dart';
 import 'package:timer/repository/shift_hive.dart';
@@ -12,13 +9,7 @@ import 'package:timer/shift_box.dart';
 import 'package:timer/util/exception.dart';
 import 'package:timer/util/time_util.dart';
 
-class MockShiftCubit extends MockCubit<ShiftState> implements ShiftCubit {}
-
-class MockShiftBox extends Mock implements ShiftBox {}
-
-class MockBox<T> extends Mock implements Box<T> {}
-
-class MockShiftApi extends Mock implements ShiftApi {}
+import 'helpers/mocking_classes.dart';
 
 void main() {
   List<Shift> shiftList = [

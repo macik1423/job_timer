@@ -23,8 +23,8 @@ class _DurationModifierState extends State<DurationModifier> {
             ? '(default) '
             : '';
     final absorbing = widget.absorbing;
-    return Padding(
-      padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+    return SizedBox(
+      width: 420,
       child: Column(
         children: <Widget>[
           Padding(
@@ -68,12 +68,6 @@ class _DurationModifierState extends State<DurationModifier> {
               },
             ),
           ),
-          // Text(
-          //   _currentSliderValue == context.read<DurationCubit>().defaultValue
-          //       ? durationText + ' (default)'
-          //       : durationText,
-          //   style: const TextStyle(fontSize: 20),
-          // ),
         ],
       ),
     );

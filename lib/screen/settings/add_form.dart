@@ -7,6 +7,7 @@ import '../../bloc/repo/repo_bloc.dart';
 import '../../cubit/duration/duration_cubit.dart';
 import '../../model/add_form/shift_input.dart';
 import '../../model/shift.dart';
+import '../../util/constants.dart' as constants;
 import '../../widgets/duration_modifier.dart';
 
 class AddForm extends StatefulWidget {
@@ -25,7 +26,7 @@ class _AddFormState extends State<AddForm> {
         return Dialog(
           child: SizedBox(
             height: 500,
-            width: 400,
+            width: 450,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Form(
@@ -34,12 +35,13 @@ class _AddFormState extends State<AddForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextFormField(
+                      key: const Key(constants.inText),
                       controller: TextEditingController(
                         text: state.shift.value.start.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
-                        labelText: 'Start',
+                        labelText: constants.inText,
                         helperText: 'Start of the shift',
                         errorText: state.shift.valid
                             ? null
@@ -66,12 +68,13 @@ class _AddFormState extends State<AddForm> {
                       },
                     ),
                     TextFormField(
+                      key: const Key(constants.outText),
                       controller: TextEditingController(
                         text: state.shift.value.end.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
-                        labelText: 'End',
+                        labelText: constants.outText,
                         helperText: 'End of the shift',
                         errorText: state.shift.valid
                             ? null
@@ -98,12 +101,13 @@ class _AddFormState extends State<AddForm> {
                       },
                     ),
                     TextFormField(
+                      key: const Key(constants.dayText),
                       controller: TextEditingController(
                         text: state.date.value.toString(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
-                        labelText: 'Day',
+                        labelText: constants.dayText,
                         helperText: 'Day of the shift',
                         errorText: state.date.valid
                             ? null
@@ -155,8 +159,11 @@ class _AddFormState extends State<AddForm> {
                               final shift = Shift(
                                 start: start,
                                 end: end,
-                                duration: const Duration(
-                                  hours: 8,
+                                duration: Duration(
+                                  hours: context
+                                      .read<DurationCubit>()
+                                      .state
+                                      .toInt(),
                                 ),
                               );
                               RepoBloc repoBloc = context.read<RepoBloc>();
