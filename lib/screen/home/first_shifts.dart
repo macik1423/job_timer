@@ -4,6 +4,7 @@ import 'package:timer/widgets/shifts_list.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
 import '../../model/shift.dart';
+import '../../widgets/snackbars.dart';
 
 class FirstShiftsList extends StatelessWidget {
   const FirstShiftsList({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class FirstShiftsList extends StatelessWidget {
       listener: (context, state) {
         if (state.status == RepoStateStatus.failure) {
           final message = state.message;
-          final snackBar = SnackBar(
+          final snackBar = NegativeSnackBar(
             content: Text(message),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);

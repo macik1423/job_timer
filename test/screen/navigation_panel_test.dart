@@ -84,7 +84,7 @@ void main() {
         expect(icon, findsOneWidget);
         await tester.tap(icon);
         await tester.pump();
-        expect(find.text(constants.inText), findsWidgets);
+        expect(find.text(constants.inn), findsWidgets);
       });
     });
 
@@ -136,8 +136,8 @@ void main() {
         await tester.tap(icon);
         await tester.pumpAndSettle();
 
-        expect(find.text(constants.inText), findsOneWidget);
-        expect(find.byKey(const Key(constants.monthsText)), findsOneWidget);
+        expect(find.text(constants.inn), findsOneWidget);
+        expect(find.byKey(const Key(constants.months)), findsOneWidget);
         expect(find.byIcon(Icons.add), findsOneWidget);
         expect(find.byIcon(Icons.arrow_downward), findsOneWidget);
       });
@@ -182,9 +182,9 @@ void main() {
         await tester.tap(icon);
         await tester.pumpAndSettle();
 
-        expect(find.byKey(const Key(constants.monthsText)), findsOneWidget);
-        expect(find.byKey(const Key(constants.summaryText)), findsOneWidget);
-        expect(find.byKey(const Key(constants.chartText)), findsOneWidget);
+        expect(find.byKey(const Key(constants.months)), findsOneWidget);
+        expect(find.byKey(const Key(constants.summary)), findsOneWidget);
+        expect(find.byKey(const Key(constants.chart)), findsOneWidget);
       });
     });
   });

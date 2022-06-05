@@ -33,13 +33,14 @@ void main() {
     late MockRepoBloc mockRepoBloc;
     late MockShiftCubit mockShiftCubit;
     late MockDurationCubit mockDurationCubit;
+    const double defaultValue = 10.0;
     setUp(() {
       mockNavigationCubit = MockNavigationCubit();
       mockRepoBloc = MockRepoBloc();
       mockShiftCubit = MockShiftCubit();
       mockDurationCubit = MockDurationCubit();
       when(() => mockDurationCubit.state).thenReturn(8.0);
-      when(() => mockDurationCubit.defaultValue).thenReturn(8.0);
+      when(() => mockDurationCubit.defaultValue).thenReturn(defaultValue);
     });
 
     testWidgets('home view', (tester) async {
@@ -93,20 +94,30 @@ void main() {
           );
         },
       );
-      final shiftList = find.byType(ShiftsList);
-      expect(shiftList, findsOneWidget);
+      final mainClock = find.byKey(const Key(constants.mainClock));
+      expect(mainClock, findsOneWidget);
+
+      final inButton = find.byKey(const Key(constants.inn));
+      expect(inButton, findsOneWidget);
+
+      final outButton = find.byKey(const Key(constants.out));
+      expect(outButton, findsOneWidget);
 
       final slider = find.byType(Slider);
       expect(slider, findsOneWidget);
 
-      final inButton = find.byKey(const Key(constants.inText));
-      expect(inButton, findsOneWidget);
+      final durationValue = find.byKey(const Key(constants.duration));
+      final Text text = tester.widget(durationValue);
+      expect(durationValue, findsOneWidget);
+      expect(text.data, '${defaultValue.round()} h');
 
-      final outButton = find.byKey(const Key(constants.outText));
-      expect(outButton, findsOneWidget);
+      final defaultText = find.byKey(const Key(constants.defaultD));
+      final Text defaultTextWidget = tester.widget(defaultText);
+      expect(defaultText, findsOneWidget);
+      expect(defaultTextWidget.data, '(default) ');
 
-      final mainClock = find.byKey(const Key(constants.mainClockText));
-      expect(mainClock, findsOneWidget);
+      final shiftList = find.byType(ShiftsList);
+      expect(shiftList, findsOneWidget);
     });
 
     testWidgets('tapped in', (tester) async {
@@ -160,9 +171,10 @@ void main() {
         },
       );
 
-      final inButton = find.byKey(const Key(constants.inText));
+      final inButton = find.byKey(const Key(constants.inn));
       expect(inButton, findsOneWidget);
-      final outButton = find.byKey(const Key(constants.outText));
+
+      final outButton = find.byKey(const Key(constants.out));
       expect(outButton, findsOneWidget);
 
       final inButtonWidget = tester.widget<ShiftCard>(inButton);
@@ -172,6 +184,7 @@ void main() {
       final outButtonWidget = tester.widget<ShiftCard>(outButton);
       expect(outButtonWidget.color, Colors.grey[400]);
       expect(outButtonWidget.enabled, false);
+
       await tester.tap(inButton);
       await tester.pumpAndSettle();
 
@@ -230,10 +243,12 @@ void main() {
         },
       );
 
-      final inButton = find.byKey(const Key(constants.inText));
+      final inButton = find.byKey(const Key(constants.inn));
       expect(inButton, findsOneWidget);
-      final outButton = find.byKey(const Key(constants.outText));
+
+      final outButton = find.byKey(const Key(constants.out));
       expect(outButton, findsOneWidget);
+
       final slider = find.byType(DurationModifier);
       expect(slider, findsOneWidget);
 

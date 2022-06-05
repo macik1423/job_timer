@@ -1,8 +1,8 @@
-const String inText = "In";
-const String outText = "Out";
-const String dateText = "Date";
-const String differenceText = "Difference";
-const List<String> monthsListText = [
+const String inn = "In";
+const String out = "Out";
+const String date = "Date";
+const String difference = "Difference";
+const List<String> monthsList = [
   'January',
   'February',
   'March',
@@ -16,18 +16,19 @@ const List<String> monthsListText = [
   'November',
   'December'
 ];
-const String minutesText = "Minutes";
-const String daysText = "Days";
-const String cancelText = "Cancel";
-const String okText = "OK";
-const String dashboardText = "Dashboard";
-const String settingsText = "Settings";
-const String statsText = "Stats";
-const String monthsText = "Months";
-const String chartText = "Chart";
-const String summaryText = "Summary";
-const String durationText = "Duration";
-const String mainClockText = "Main Clock";
-const String wrenchOpacityText = "Wrench Opacity";
-const String addOpacityText = "Add Opacity";
-const String dayText = "Day";
+const String minutes = "Minutes";
+const String days = "Days";
+const String cancel = "Cancel";
+const String ok = "OK";
+const String dashboard = "Dashboard";
+const String settings = "Settings";
+const String stats = "Stats";
+const String months = "Months";
+const String chart = "Chart";
+const String summary = "Summary";
+const String duration = "Duration";
+const String mainClock = "Main Clock";
+const String wrenchOpacity = "Wrench Opacity";
+const String addOpacity = "Add Opacity";
+const String day = "Day";
+const String defaultD = "Default";

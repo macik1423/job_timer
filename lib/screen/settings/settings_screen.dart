@@ -65,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 40.0),
               child: DropdownButton(
-                key: const Key(constants.monthsText),
+                key: const Key(constants.months),
                 value: selectedValue,
                 underline: Container(
                   height: 2,
@@ -73,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 icon: const Icon(Icons.arrow_downward),
                 elevation: 16,
-                items: constants.monthsListText
+                items: constants.monthsList
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -124,14 +124,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     return AlertDialog(
                                       actions: [
                                         TextButton(
-                                          child:
-                                              const Text(constants.cancelText),
+                                          child: const Text(constants.cancel),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
                                         ),
                                         TextButton(
-                                          child: const Text(constants.okText),
+                                          child: const Text(constants.ok),
                                           onPressed: () {
                                             repoBloc
                                                 .add(RepoShiftDeleted(shift));
@@ -165,7 +164,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           AnimatedOpacity(
-            key: const Key(constants.wrenchOpacityText),
+            key: const Key(constants.wrenchOpacity),
             opacity: _isVisible ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 500),
             child: FloatingActionButton(
@@ -175,7 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   builder: (context) {
                     return BlocProvider.value(
                       value: durationCubit,
-                      child: DefaultValueOption(),
+                      child: const DefaultValueOption(),
                     );
                   },
                 );
@@ -188,7 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             height: 10,
           ),
           AnimatedOpacity(
-            key: const Key(constants.addOpacityText),
+            key: const Key(constants.addOpacity),
             opacity: _isVisible ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 500),
             child: FloatingActionButton(

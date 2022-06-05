@@ -94,7 +94,7 @@ void main() {
       final list = find.byType(ListView);
       expect(list, findsOneWidget);
 
-      final dropdownMonths = find.byKey(const Key(constants.monthsText));
+      final dropdownMonths = find.byKey(const Key(constants.months));
       expect(dropdownMonths, findsOneWidget);
     });
 
@@ -289,10 +289,10 @@ Future<void> scrollDown(WidgetTester tester, Finder shiftList) async {
   await tester.drag(shiftList, const Offset(0.0, -25.0));
   await tester.pumpAndSettle();
 
-  final wrench = find.byKey(const Key(constants.wrenchOpacityText));
+  final wrench = find.byKey(const Key(constants.wrenchOpacity));
   expect(wrench, findsOneWidget);
 
-  final add = find.byKey(const Key(constants.addOpacityText));
+  final add = find.byKey(const Key(constants.addOpacity));
   expect(add, findsOneWidget);
 
   final AnimatedOpacity wrenchButton = tester.firstWidget(wrench);
@@ -303,10 +303,10 @@ Future<void> scrollDown(WidgetTester tester, Finder shiftList) async {
 }
 
 Future<void> scrollUp(WidgetTester tester, Finder shiftList) async {
-  final wrench = find.byKey(const Key(constants.wrenchOpacityText));
+  final wrench = find.byKey(const Key(constants.wrenchOpacity));
   expect(wrench, findsOneWidget);
 
-  final add = find.byKey(const Key(constants.addOpacityText));
+  final add = find.byKey(const Key(constants.addOpacity));
   expect(add, findsOneWidget);
 
   await tester.drag(shiftList, const Offset(0.0, 30.0));

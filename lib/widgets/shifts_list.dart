@@ -17,11 +17,11 @@ class ShiftsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataTable(
       columns: const [
-        DataColumn(label: Text(constants.inText)),
-        DataColumn(label: Text(constants.outText)),
-        DataColumn(label: Text(constants.dateText)),
-        DataColumn(label: Text(constants.differenceText)),
-        DataColumn(label: Text(constants.durationText)),
+        DataColumn(label: Text(constants.inn)),
+        DataColumn(label: Text(constants.out)),
+        DataColumn(label: Text(constants.date)),
+        DataColumn(label: Text(constants.difference)),
+        DataColumn(label: Text(constants.duration)),
       ],
       rows: shifts.map((shift) {
         final start = shift.start;

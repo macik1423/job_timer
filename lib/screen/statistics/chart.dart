@@ -86,7 +86,7 @@ class _ChartState extends State<Chart> {
         ),
         bottomTitles: AxisTitles(
           axisNameSize: 20,
-          axisNameWidget: const Text(constants.daysText),
+          axisNameWidget: const Text(constants.days),
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 40,
@@ -97,7 +97,7 @@ class _ChartState extends State<Chart> {
           axisNameSize: 20,
           axisNameWidget: const Padding(
             padding: EdgeInsets.only(bottom: 2.0),
-            child: Text(constants.minutesText),
+            child: Text(constants.minutes),
           ),
           sideTitles: SideTitles(
             showTitles: true,

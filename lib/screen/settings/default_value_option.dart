@@ -48,7 +48,8 @@ class DefaultValueOption extends StatelessWidget {
                       durationCubit.changeDefaultValue(value);
                       Navigator.pop(context);
                       final snackBar = PositiveSnackBar(
-                        content: Text('Saved new default duration: $value'),
+                        content: Text(
+                            'Saved new default duration: ${value.round()} h'),
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);

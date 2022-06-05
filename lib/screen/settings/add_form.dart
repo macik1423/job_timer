@@ -35,13 +35,13 @@ class _AddFormState extends State<AddForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextFormField(
-                      key: const Key(constants.inText),
+                      key: const Key(constants.inn),
                       controller: TextEditingController(
                         text: state.shift.value.start.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
-                        labelText: constants.inText,
+                        labelText: constants.inn,
                         helperText: 'Start of the shift',
                         errorText: state.shift.valid
                             ? null
@@ -68,13 +68,13 @@ class _AddFormState extends State<AddForm> {
                       },
                     ),
                     TextFormField(
-                      key: const Key(constants.outText),
+                      key: const Key(constants.out),
                       controller: TextEditingController(
                         text: state.shift.value.end.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
-                        labelText: constants.outText,
+                        labelText: constants.out,
                         helperText: 'End of the shift',
                         errorText: state.shift.valid
                             ? null
@@ -101,13 +101,13 @@ class _AddFormState extends State<AddForm> {
                       },
                     ),
                     TextFormField(
-                      key: const Key(constants.dayText),
+                      key: const Key(constants.day),
                       controller: TextEditingController(
                         text: state.date.value.toString(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
-                        labelText: constants.dayText,
+                        labelText: constants.day,
                         helperText: 'Day of the shift',
                         errorText: state.date.valid
                             ? null

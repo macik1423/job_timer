@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timer/util/constants.dart' as constants;
 
 import '../cubit/duration/duration_cubit.dart';
 
@@ -24,7 +25,7 @@ class _DurationModifierState extends State<DurationModifier> {
             : '';
     final absorbing = widget.absorbing;
     return SizedBox(
-      width: 420,
+      width: 450,
       child: Column(
         children: <Widget>[
           Padding(
@@ -34,12 +35,15 @@ class _DurationModifierState extends State<DurationModifier> {
               children: [
                 const Text('Duration', style: TextStyle(fontSize: 20.0)),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(defaultText,
                         style:
                             const TextStyle(fontSize: 15.0, color: Colors.grey),
-                        textAlign: TextAlign.justify),
+                        textAlign: TextAlign.justify,
+                        key: const Key(constants.defaultD)),
                     Text('${_currentSliderValue.round()} h',
+                        key: const Key(constants.duration),
                         style: const TextStyle(fontSize: 20.0))
                   ],
                 )

@@ -55,13 +55,13 @@ void main() {
         );
       });
 
-      final dropdown = find.byKey(const Key(constants.monthsText));
+      final dropdown = find.byKey(const Key(constants.months));
       expect(dropdown, findsOneWidget);
 
       final chart = find.byType(Chart);
       expect(chart, findsOneWidget);
 
-      final summary = find.byKey(const Key(constants.summaryText));
+      final summary = find.byKey(const Key(constants.summary));
       expect(summary, findsOneWidget);
 
       final plus = find.byIcon(Icons.add);
@@ -101,13 +101,13 @@ void main() {
         );
       });
 
-      final dropdown = find.byKey(const Key(constants.monthsText));
+      final dropdown = find.byKey(const Key(constants.months));
       expect(dropdown, findsOneWidget);
 
       final chart = find.byType(Chart);
       expect(chart, findsOneWidget);
 
-      final summary = find.byKey(const Key(constants.summaryText));
+      final summary = find.byKey(const Key(constants.summary));
       expect(summary, findsOneWidget);
 
       final plus = find.byIcon(Icons.remove);

@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                       const SizedBox(height: 20),
                       Clock(
-                        key: const Key(constants.mainClockText),
+                        key: const Key(constants.mainClock),
                         repoState: repoState,
                       ),
                       Divider(
@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
                         height: 30,
                       ),
                       ShiftCard(
-                        key: const Key(constants.inText),
+                        key: const Key(constants.inn),
                         color: state.enabledStart
                             ? Colors.green[300]!
                             : Colors.grey[400]!,
@@ -61,15 +61,15 @@ class _HomeState extends State<Home> {
                         },
                         tappedTime: TimeUtil.formatDateTime(state.shift.start),
                         enabled: state.enabledStart,
-                        title: constants.inText,
+                        title: constants.inn,
                         subtitle: TimeUtil.formatDate(state.shift.start),
                       ),
                       ShiftCard(
-                        key: const Key(constants.outText),
+                        key: const Key(constants.out),
                         color: state.enabledEnd
                             ? Colors.green[300]!
                             : Colors.grey[400]!,
-                        title: constants.outText,
+                        title: constants.out,
                         onTap: () {
                           final timeNow = DateTime.now();
                           final timeIn = state.shift.start;

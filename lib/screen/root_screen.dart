@@ -29,19 +29,19 @@ class _RootScreenState extends State<RootScreen> {
                 icon: Icon(
                   Icons.home,
                 ),
-                label: constants.dashboardText,
+                label: constants.dashboard,
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.settings,
                 ),
-                label: constants.settingsText,
+                label: constants.settings,
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.stacked_bar_chart_sharp,
                 ),
-                label: constants.statsText,
+                label: constants.stats,
               ),
             ],
             onTap: (index) {

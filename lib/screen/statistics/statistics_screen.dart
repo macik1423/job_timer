@@ -25,7 +25,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 40.0),
             child: DropdownButton(
-              key: const Key(constants.monthsText),
+              key: const Key(constants.months),
               value: selectedMonth,
               underline: Container(
                 height: 2,
@@ -33,7 +33,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               ),
               icon: const Icon(Icons.arrow_downward),
               elevation: 16,
-              items: constants.monthsListText
+              items: constants.monthsList
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -48,7 +48,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ),
           Expanded(
-            key: const Key(constants.chartText),
+            key: const Key(constants.chart),
             child: BlocBuilder<RepoBloc, RepoState>(
               bloc: context.read<RepoBloc>(),
               builder: (context, state) {
@@ -73,7 +73,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
           ),
           BlocBuilder<RepoBloc, RepoState>(
-            key: const Key(constants.summaryText),
+            key: const Key(constants.summary),
             builder: (context, state) {
               if (state.status == RepoStateStatus.success) {
                 final yearNow = DateTime.now().year;
@@ -86,7 +86,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 final sum = ShiftAccumulator().sum(shiftsInMonth);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Summary(const Key(constants.summaryText), sum),
+                  child: Summary(const Key(constants.summary), sum),
                 );
               } else {
                 return const Text("dupa");

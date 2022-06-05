@@ -163,13 +163,13 @@ void main() {
         );
       });
 
-      final inLabelText = find.byKey(const Key(constants.inText));
+      final inLabelText = find.byKey(const Key(constants.inn));
       expect(inLabelText, findsOneWidget);
 
-      final outLabelText = find.byKey(const Key(constants.outText));
+      final outLabelText = find.byKey(const Key(constants.out));
       expect(outLabelText, findsOneWidget);
 
-      final dayLabelText = find.byKey(const Key(constants.dayText));
+      final dayLabelText = find.byKey(const Key(constants.day));
       expect(dayLabelText, findsOneWidget);
 
       final slider = find.byType(DurationModifier);
