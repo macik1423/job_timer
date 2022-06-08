@@ -1,28 +1,29 @@
 part of 'add_form_bloc.dart';
 
 class AddFormState extends Equatable {
-  final AddShiftTime shift;
+  final AddShiftTime time;
   final AddShiftDate date;
-  final FormzStatus status;
 
   const AddFormState({
-    this.shift = const AddShiftTime.pure(),
+    this.time = const AddShiftTime.pure(),
     this.date = const AddShiftDate.pure(),
-    this.status = FormzStatus.pure,
   });
 
   AddFormState copyWith({
-    AddShiftTime? shift,
+    AddShiftTime? time,
     AddShiftDate? date,
-    FormzStatus? status,
   }) {
     return AddFormState(
-      shift: shift ?? this.shift,
+      time: time ?? this.time,
       date: date ?? this.date,
-      status: status ?? this.status,
     );
   }
 
   @override
-  List<Object?> get props => [shift, date, status];
+  String toString() {
+    return 'AddFormState{time: $time, date: $date}';
+  }
+
+  @override
+  List<Object?> get props => [time, date];
 }

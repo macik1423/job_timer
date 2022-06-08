@@ -37,20 +37,20 @@ class _AddFormState extends State<AddForm> {
                     TextFormField(
                       key: const Key(constants.inn),
                       controller: TextEditingController(
-                        text: state.shift.value.start.to24hours(),
+                        text: state.time.value.start.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
                         labelText: constants.inn,
                         helperText: 'Start of the shift',
-                        errorText: state.shift.valid
+                        errorText: state.time.valid
                             ? null
                             : 'Start date must be earlier than end date',
                       ),
                       readOnly: true,
                       onTap: () async {
                         final newValue =
-                            await _selectTime(state.shift.value.start);
+                            await _selectTime(state.time.value.start);
                         context.read<AddFormBloc>().add(
                               ShiftTimeInputChanged(
                                 ShiftTimeInput(
@@ -59,8 +59,8 @@ class _AddFormState extends State<AddForm> {
                                     minute: newValue.minute,
                                   ),
                                   end: TimeOfDay(
-                                    hour: state.shift.value.end.hour,
-                                    minute: state.shift.value.end.minute,
+                                    hour: state.time.value.end.hour,
+                                    minute: state.time.value.end.minute,
                                   ),
                                 ),
                               ),
@@ -70,26 +70,26 @@ class _AddFormState extends State<AddForm> {
                     TextFormField(
                       key: const Key(constants.out),
                       controller: TextEditingController(
-                        text: state.shift.value.end.to24hours(),
+                        text: state.time.value.end.to24hours(),
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
                         labelText: constants.out,
                         helperText: 'End of the shift',
-                        errorText: state.shift.valid
+                        errorText: state.time.valid
                             ? null
                             : 'End date must be later than start date',
                       ),
                       readOnly: true,
                       onTap: () async {
                         final newValue =
-                            await _selectTime(state.shift.value.end);
+                            await _selectTime(state.time.value.end);
                         context.read<AddFormBloc>().add(
                               ShiftTimeInputChanged(
                                 ShiftTimeInput(
                                   start: TimeOfDay(
-                                    hour: state.shift.value.start.hour,
-                                    minute: state.shift.value.start.minute,
+                                    hour: state.time.value.start.hour,
+                                    minute: state.time.value.start.minute,
                                   ),
                                   end: TimeOfDay(
                                     hour: newValue!.hour,
@@ -103,7 +103,7 @@ class _AddFormState extends State<AddForm> {
                     TextFormField(
                       key: const Key(constants.day),
                       controller: TextEditingController(
-                        text: state.date.value.toString(),
+                        text: state.date.value.formatted,
                       ),
                       focusNode: FocusNode(),
                       decoration: InputDecoration(
@@ -135,10 +135,10 @@ class _AddFormState extends State<AddForm> {
                       defaultValue: context.read<DurationCubit>().defaultValue,
                     ),
                     ElevatedButton(
-                      onPressed: state.shift.valid && state.date.valid
+                      onPressed: state.time.valid && state.date.valid
                           ? () {
                               final date = state.date.value;
-                              final time = state.shift.value;
+                              final time = state.time.value;
                               final year = int.parse(date.year);
                               final month = int.parse(date.month);
                               final day = int.parse(date.day);

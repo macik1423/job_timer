@@ -11,6 +11,11 @@ class ShiftTimeInput extends Equatable {
   });
 
   @override
+  String toString() {
+    return 'ShiftTimeInput{start: $start, end: $end}';
+  }
+
+  @override
   List<Object?> get props => [start, end];
 }
 
@@ -25,8 +30,10 @@ class ShiftDateInput extends Equatable {
   @override
   List<Object?> get props => [year, month, day];
 
+  String get formatted => day;
+
   @override
   String toString() {
-    return day;
+    return 'ShiftDateInput{year: $year, month: $month, day: $day}';
   }
 }

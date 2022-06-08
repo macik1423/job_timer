@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:timer/model/add_form/shift_input.dart';
 
-enum AddShiftError { invalid }
+enum AddShiftError {
+  invalid;
+
+  @override
+  String toString() => 'AddShiftError: $invalid';
+}
 
 class AddShiftTime extends FormzInput<ShiftTimeInput, AddShiftError> {
   const AddShiftTime.dirty({

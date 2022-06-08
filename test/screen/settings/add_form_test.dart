@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:timer/bloc/add_form/add_form_bloc.dart';
 import 'package:timer/bloc/repo/repo_bloc.dart';
@@ -63,10 +62,9 @@ void main() {
         enabledEnd: false,
         status: ShiftStateStatus.initial,
       ));
-      when(() => mockAddFormBloc.state).thenReturn(const AddFormState(
-        shift: AddShiftTime.pure(),
-        date: AddShiftDate.pure(),
-        status: FormzStatus.pure,
+      when(() => mockAddFormBloc.state).thenReturn(AddFormState(
+        time: const AddShiftTime.pure(),
+        date: const AddShiftDate.pure(),
       ));
 
       await mockHydratedStorage(() async {
@@ -130,10 +128,9 @@ void main() {
         enabledEnd: false,
         status: ShiftStateStatus.initial,
       ));
-      when(() => mockAddFormBloc.state).thenReturn(const AddFormState(
-        shift: AddShiftTime.pure(),
-        date: AddShiftDate.pure(),
-        status: FormzStatus.pure,
+      when(() => mockAddFormBloc.state).thenReturn(AddFormState(
+        time: const AddShiftTime.pure(),
+        date: const AddShiftDate.pure(),
       ));
 
       await mockHydratedStorage(() async {

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:formz/formz.dart';
 import 'package:timer/model/add_form/add_shift.dart';
 
 import '../../model/add_form/shift_input.dart';
@@ -9,7 +8,7 @@ part 'add_form_event.dart';
 part 'add_form_state.dart';
 
 class AddFormBloc extends Bloc<AddFormEvent, AddFormState> {
-  AddFormBloc() : super(const AddFormState()) {
+  AddFormBloc() : super(AddFormState()) {
     on<ShiftTimeInputChanged>(_onShiftTimeChanged);
     on<ShiftDateInputChanged>(_onShiftDateChanged);
   }
@@ -21,25 +20,24 @@ class AddFormBloc extends Bloc<AddFormEvent, AddFormState> {
 
   void _onShiftTimeChanged(
       ShiftTimeInputChanged event, Emitter<AddFormState> emit) {
-    final shiftInput = AddShiftTime.dirty(value: event.input);
+    final shiftTimeInput = AddShiftTime.dirty(value: event.input);
     emit(
       state.copyWith(
-        shift: shiftInput.valid
-            ? shiftInput
+        time: shiftTimeInput.valid
+            ? shiftTimeInput
             : AddShiftTime.pure(value: event.input),
-        status: Formz.validate([shiftInput, state.shift]),
       ),
     );
   }
 
   void _onShiftDateChanged(
       ShiftDateInputChanged event, Emitter<AddFormState> emit) {
-    final shiftDate = AddShiftDate.dirty(value: event.input);
+    final shiftDateInput = AddShiftDate.dirty(value: event.input);
     emit(
       state.copyWith(
-        date:
-            shiftDate.valid ? shiftDate : AddShiftDate.pure(value: event.input),
-        status: Formz.validate([shiftDate, state.date]),
+        date: shiftDateInput.valid
+            ? shiftDateInput
+            : AddShiftDate.pure(value: event.input),
       ),
     );
   }
