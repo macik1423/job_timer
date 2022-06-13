@@ -170,6 +170,7 @@ class _AddFormState extends State<AddForm> {
                               repoBloc.add(
                                 RepoShiftSaved(shift),
                               );
+                              context.read<DurationCubit>().resetToDefault();
                               Navigator.pop(context);
                             }
                           : null,

@@ -35,10 +35,10 @@ class ShiftsList extends StatelessWidget {
           onLongPress: () => press(shift),
           cells: [
             DataCell(
-              Text(TimeUtil.formatDateTime(start)),
+              Text(TimeUtil.formatTime(start)),
             ),
             DataCell(
-              Text(TimeUtil.formatDateTime(end)),
+              Text(TimeUtil.formatTime(end)),
             ),
             DataCell(
               Text(TimeUtil.formatDate(start)),

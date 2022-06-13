@@ -20,7 +20,7 @@ class ShiftCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(80, 10, 80, 10),
+      padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: color,

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/repo/repo_bloc.dart';
-import '../cubit/shift/shift_cubit.dart';
-import '../util/time_util.dart';
+import '../../bloc/repo/repo_bloc.dart';
+import '../../cubit/shift/shift_cubit.dart';
+import '../../util/time_util.dart';
 
 class Clock extends StatefulWidget {
   const Clock({
@@ -36,8 +36,9 @@ class _ClockState extends State<Clock> {
       setState(() {
         final start = context.read<ShiftCubit>().state.shift.start;
         final end = context.read<ShiftCubit>().state.shift.end;
-        final isExist =
-            widget.repoState.shifts.any((shift) => shift.start == start);
+        final isExist = widget.repoState.shifts.any((shift) =>
+            TimeUtil.formatDateTime(shift.start) ==
+            TimeUtil.formatDateTime(start));
 
         _date = TimeUtil.formatDate(DateTime.now());
         final startTappedTime = TimeUtil.formatDate(start);
@@ -62,9 +63,9 @@ class _ClockState extends State<Clock> {
             builder: (context, snapshot) {
               return Center(
                 child: Text(
-                  TimeUtil.formatDateTime(DateTime.now()),
+                  TimeUtil.formatTime(DateTime.now()),
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 45),
+                      fontWeight: FontWeight.bold, fontSize: 40),
                 ),
               );
             },
@@ -75,7 +76,7 @@ class _ClockState extends State<Clock> {
               return Center(
                 child: Text(
                   TimeUtil.formatDate(DateTime.now()),
-                  style: const TextStyle(fontSize: 25),
+                  style: const TextStyle(fontSize: 22),
                 ),
               );
             },

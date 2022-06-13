@@ -8,7 +8,7 @@ part 'add_form_event.dart';
 part 'add_form_state.dart';
 
 class AddFormBloc extends Bloc<AddFormEvent, AddFormState> {
-  AddFormBloc() : super(AddFormState()) {
+  AddFormBloc() : super(const AddFormState()) {
     on<ShiftTimeInputChanged>(_onShiftTimeChanged);
     on<ShiftDateInputChanged>(_onShiftDateChanged);
   }

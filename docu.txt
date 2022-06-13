@@ -1,4 +1,4 @@
-flutter clean
+flutterflutter clean
 flutter build appbundle
 
 // generate model g hive; add to hive model class file: { part 'shift.g.dart' };
@@ -12,3 +12,8 @@ flutter pub get
 
 // json serialization
 flutter pub run build_runner build
+
+// build version
+flutter clean
+flutter build appbundle
+version: 1.2.0+3 Release name should be 3(1.2.0)

@@ -8,9 +8,10 @@ import '../../cubit/shift/shift_state.dart';
 import '../../model/shift.dart';
 import '../../util/constants.dart' as constants;
 import '../../util/time_util.dart';
-import '../../widgets/clock.dart';
 import '../../widgets/duration_modifier.dart';
 import '../../widgets/shift_card.dart';
+import '../../widgets/snackbars.dart';
+import 'clock.dart';
 import 'first_shifts.dart';
 
 class Home extends StatefulWidget {
@@ -27,10 +28,12 @@ class _HomeState extends State<Home> {
       body: BlocConsumer<RepoBloc, RepoState>(
         listener: (repoContext, repoState) {
           if (repoState.status == RepoStateStatus.failure) {
-            final snackBar = SnackBar(
-              content: Text(repoState.message),
+            final message = repoState.message;
+            final snackBar = NegativeSnackBar(
+              content: Text(message),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            context.read<RepoBloc>().add(RepoReset());
           }
         },
         builder: (repoContext, repoState) {
@@ -59,7 +62,7 @@ class _HomeState extends State<Home> {
                           final timeNow = DateTime.now();
                           context.read<ShiftCubit>().updateStart(timeNow);
                         },
-                        tappedTime: TimeUtil.formatDateTime(state.shift.start),
+                        tappedTime: TimeUtil.formatTime(state.shift.start),
                         enabled: state.enabledStart,
                         title: constants.inn,
                         subtitle: TimeUtil.formatDate(state.shift.start),
@@ -90,7 +93,7 @@ class _HomeState extends State<Home> {
                               .read<ShiftCubit>()
                               .updateEnd(timeIn!, timeNow);
                         },
-                        tappedTime: TimeUtil.formatDateTime(state.shift.end),
+                        tappedTime: TimeUtil.formatTime(state.shift.end),
                         enabled: state.enabledEnd,
                         subtitle: TimeUtil.formatDate(state.shift.end),
                       ),

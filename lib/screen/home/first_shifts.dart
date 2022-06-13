@@ -4,7 +4,6 @@ import 'package:timer/widgets/shifts_list.dart';
 
 import '../../bloc/repo/repo_bloc.dart';
 import '../../model/shift.dart';
-import '../../widgets/snackbars.dart';
 
 class FirstShiftsList extends StatelessWidget {
   const FirstShiftsList({Key? key}) : super(key: key);
@@ -14,17 +13,7 @@ class FirstShiftsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RepoBloc, RepoState>(
-      listener: (context, state) {
-        if (state.status == RepoStateStatus.failure) {
-          final message = state.message;
-          final snackBar = NegativeSnackBar(
-            content: Text(message),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          context.read<RepoBloc>().add(RepoReset());
-        }
-      },
+    return BlocBuilder<RepoBloc, RepoState>(
       builder: (context, state) {
         final List<Shift> shifts = List.from(state.shifts);
         if (shifts.isNotEmpty) {
